@@ -1,0 +1,21 @@
+20
+Juan        34   1200.00
+Maria 29   1400.00
+Jose 45   1600.00
+Laura 31   1350.00
+Carlos 40   1500.00
+Ana 27   1300.00
+Pablo 38   1550.00
+Sofia 26   1250.00
+Luis 42   1700.00
+Marta 30   1450.00
+Nicolas 35   1300.00
+Valentina 28   1350.00
+David 36   1600.00
+Elena 33   1450.00
+Ricardo 41   1700.00
+Andrea 32   1400.00
+Tomas 30   1550.00
+Carolina 25   1250.00
+Martin 37   1500.00
+Julieta      24   1200.00
