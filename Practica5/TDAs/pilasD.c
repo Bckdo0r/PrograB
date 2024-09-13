@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "tdapilasD.h"
+#include "pilasD.h"
 #include <stdlib.h>
 
 void poneP (TPila *P, TElementoP x){

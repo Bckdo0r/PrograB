@@ -7,7 +7,7 @@ c. Mantener la información en la pila.  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "TDAs/tdapilasD.h"
+#include "TDAs/pilasD.h"
 
 int main() {
 	FILE*arch;

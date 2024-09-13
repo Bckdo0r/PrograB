@@ -4,5 +4,3 @@ b. Pila dinámica
 c. Cola estática (no circular)
 d. Cola dinámica */
 
-/** Cambio */
-

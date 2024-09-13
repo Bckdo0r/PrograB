@@ -1,5 +1,11 @@
 {
    "files.associations": {
-      "tdapilasd.h": "c"
-   }
+      "tdapilasd.h": "c",
+      "pilasd.h": "c",
+      "stdio.h": "c",
+      "string.h": "c",
+      "stdlib.h": "c",
+      "colas.h": "c"
+   },
+   "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

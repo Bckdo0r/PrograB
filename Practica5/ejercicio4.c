@@ -1,22 +1,43 @@
-/* Desarrollar subprogramas (con estructuras iterativas) que trabajando sobre una pila de 
-enteros: 
-a. cuente la cantidad de ceros que contiene. 
-b. obtenga el valor promedio (sin perder la información de la pila)
-c. calcule los valores máximo y mínimo de la pila (sin perder la información de la pila) 
-d. quite todos los valores mayores al último.  */
+/* Ingresar en una cola los números almacenados (uno por línea) en un archivo de texto. Mostrar 
+el contenido de la cola. 
+a. Utilizar la implementación estática no circular. 
+b. Utilizar la implementación dinámica. 
+c. Mantener la información en la cola.  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "TDAs/tdapilasE.h"
-
-void cantCeros(TPila *P,int *ceros);
-void promPila(TPila *P,float *prom);
-void minMax(TPila *P,int *min,int *max);
-void mayoresUlt(TPila *P);
+#include "TDAs/colas.h"
 
 int main() {
+	TElementoC x;
+	FILE *arch;
+	TCola C,AUX;
 	
+	if((arch = fopen("datosEJ4.txt","r")) == NULL)
+		printf("Error lens.\n");
+	else {
+		iniciaC(&C);
+		iniciaC(&AUX);
+
+		while ((fscanf(arch,"%d",&x)) == 1)
+			poneC(&C, x);
+
+		fclose(arch);
+
+		while(!vaciaC(C)) {
+			sacaC(&C,&x);
+			poneC(&AUX,x);
+			printf("%d\n",x);
+		}
+
+		while(!vaciaC(AUX)) {
+			sacaC(&AUX,&x);
+			poneC(&C,x);
+		}
+
+	}
 
 	return 0;
 }
+

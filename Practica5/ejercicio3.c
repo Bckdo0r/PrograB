@@ -6,7 +6,7 @@ b. en el orden que sufragaron. */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "TDAs/tdapilasE.h"
+#include "TDAs/pilasE.h"
 
 int main() {
 	TPila P,AUX;
