@@ -52,10 +52,13 @@ void cargaLista(Lista *L)
                 act = act->sig;
             }
 
+            printf("Palabra: %s\n", palabra);
+
             if (strcmp(act->palabra, palabra) == 0)
                 act->frecuencia++;
             else
             {
+                printf("entro a else: %s\n", palabra);
                 nuevo = (Lista)malloc(sizeof(nodo));
 
                 strcpy(nuevo->palabra, palabra);
