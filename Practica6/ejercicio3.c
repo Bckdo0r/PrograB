@@ -35,6 +35,7 @@ void cargaLista(Lista *L)
     FILE *arch;
     Lista nuevo, ant, act;
     char palabra[MAX];
+    *L = NULL;
 
     if ((arch = fopen("datosEJ3.txt", "r")) == NULL)
         printf("Error lens\n");
@@ -46,19 +47,17 @@ void cargaLista(Lista *L)
             act = *L;
             ant = NULL;
 
-            while (act && strcmp(act->palabra, palabra) < 0)
+            while (act != NULL && strcmp(act->palabra, palabra) < 0)
             {
                 ant = act;
                 act = act->sig;
             }
 
-            printf("Palabra: %s\n", palabra);
 
-            if (act && strcmp(act->palabra, palabra) == 0)
+            if (act != NULL && strcmp(act->palabra, palabra) == 0)
                 act->frecuencia++;
             else
             {
-                printf("entro a else: %s\n", palabra);
                 nuevo = (Lista)malloc(sizeof(nodo));
 
                 strcpy(nuevo->palabra, palabra);
