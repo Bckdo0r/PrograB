@@ -54,7 +54,7 @@ void cargaLista(Lista *L)
 
             printf("Palabra: %s\n", palabra);
 
-            if (strcmp(act->palabra, palabra) == 0)
+            if (act && strcmp(act->palabra, palabra) == 0)
                 act->frecuencia++;
             else
             {
