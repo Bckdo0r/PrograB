@@ -1,0 +1,17 @@
+sol
+mar
+cielo
+tierra
+rio
+lluvia
+nube
+estrella
+luna
+viento
+nube
+lluvia
+lluvia
+fuego
+arena
+flor
+arena
