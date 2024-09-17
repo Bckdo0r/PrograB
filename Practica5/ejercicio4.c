@@ -15,7 +15,7 @@ int main() {
 	TCola C,AUX;
 	
 	if((arch = fopen("datosEJ4.txt","r")) == NULL)
-		printf("Error lens.\n");
+		printf("Error lens anashe.\n");
 	else {
 		iniciaC(&C);
 		iniciaC(&AUX);
