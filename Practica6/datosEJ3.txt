@@ -3,6 +3,11 @@ mar
 cielo
 tierra
 rio
+valen
+valen
+valen
+zalazar
+zalazar
 lluvia
 nube
 estrella
@@ -15,3 +20,5 @@ fuego
 arena
 flor
 arena
+abeja
+abeja

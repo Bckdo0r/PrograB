@@ -7,9 +7,11 @@ el texto con su frecuencia de aparición.  */
 #include <string.h>
 #define MAX 20
 
+typedef char string[MAX + 1];
+
 typedef struct nodo
 {
-    char palabra[MAX];
+    string palabra;
     int frecuencia;
     struct nodo *sig;
 } nodo;
@@ -34,7 +36,7 @@ void cargaLista(Lista *L)
 {
     FILE *arch;
     Lista nuevo, ant, act;
-    char palabra[MAX];
+    string palabra;
     *L = NULL;
 
     if ((arch = fopen("datosEJ3.txt", "r")) == NULL)
@@ -53,7 +55,6 @@ void cargaLista(Lista *L)
                 act = act->sig;
             }
 
-
             if (act != NULL && strcmp(act->palabra, palabra) == 0)
                 act->frecuencia++;
             else
@@ -63,16 +64,12 @@ void cargaLista(Lista *L)
                 strcpy(nuevo->palabra, palabra);
                 nuevo->frecuencia = 1;
 
+                nuevo->sig = act;
+
                 if (act == *L)
-                {
-                    nuevo->sig = *L;
                     *L = nuevo;
-                }
                 else
-                {
-                    nuevo->sig = act;
                     ant->sig = nuevo;
-                }
             }
         }
     }
