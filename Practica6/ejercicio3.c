@@ -41,31 +41,36 @@ void cargaLista(Lista *L)
 
     if ((arch = fopen("datosEJ3.txt", "r")) == NULL)
         printf("Error lens\n");
-    else
-    {
+    else {
 
-        while (fscanf(arch, "%s", palabra) == 1)
-        {
+        //Bucle para leer archivo
+        while (fscanf(arch, "%s", palabra) == 1) {
             act = *L;
             ant = NULL;
 
-            while (act != NULL && strcmp(act->palabra, palabra) < 0)
-            {
+            //Bucle para comprobar si la palabra leida esta en la lista
+            while (act != NULL && strcmp(act->palabra, palabra) < 0) {
                 ant = act;
                 act = act->sig;
             }
 
+            //!Verificacion de condicion de salida
+            //Si sale porque esta en la lista, se aumenta la frecuencia
             if (act != NULL && strcmp(act->palabra, palabra) == 0)
                 act->frecuencia++;
-            else
-            {
+            
+            //Si sale porque no esta, se crea un nodo para agregar a la lista    
+            else {
                 nuevo = (Lista)malloc(sizeof(nodo));
 
+                //Se pega la palabra y se inicia el contador de frecuencia
                 strcpy(nuevo->palabra, palabra);
                 nuevo->frecuencia = 1;
 
+                //!Que el puntero del nuevo nodo apunte a actual
                 nuevo->sig = act;
 
+                //TODO para que son estos condicionales?
                 if (act == *L)
                     *L = nuevo;
                 else
@@ -77,8 +82,7 @@ void cargaLista(Lista *L)
 
 void muestraLista(Lista L)
 {
-    while (L)
-    {
+    while (L != NULL) {
         printf("%s: %d\n", L->palabra, L->frecuencia);
         L = L->sig;
     }
