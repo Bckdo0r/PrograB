@@ -1,8 +1,8 @@
-typedef long TElementoP;
+typedef int TElementoP;
 
-typedef struct nodo{
+typedef struct nodoP{
     TElementoP dato;
-    struct nodo *sig;
+    struct nodoP *sig;
 } nodoP;
 
 typedef nodoP *TPila;

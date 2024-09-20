@@ -92,14 +92,14 @@ void muestraPila(TPila *P){
    int num,i=1;
    iniciaP(&aux);
 
-   printf("El maximo elemento de cada cola: \n");
+   printf("El maximo elemento de cada cola: \n\n");
    while (!vaciaP(*P)) {
       sacaP(P,&num);
       poneP(&aux,num);
-      printf("Nodo %d: %d",i++,num);
+      printf("Nodo %d: %d\n",i++,num);
    }
    
-   while (!vacia(aux)) {
+   while (!vaciaP(aux)) {
       sacaP(&aux,&num);
       poneP(P,num);
    }
