@@ -17,6 +17,7 @@ typedef nodo *Lista;
 
 void cargaLista(Lista *);
 void pilaMaxElem(Lista,TPila *);
+void muestraPila(TPila *);
 
 int main() {
    Lista L;
@@ -24,6 +25,7 @@ int main() {
 
    cargaLista(&L);
    pilaMaxElem(L,&P);
+   muestraPila(&P);
    return 0;
 }
 
@@ -83,4 +85,23 @@ void pilaMaxElem(Lista L,TPila *P){
       //Avanzo de nodo
       L = L->sig;
    }
+}
+
+void muestraPila(TPila *P){
+   TPila aux;
+   int num,i=1;
+   iniciaP(&aux);
+
+   printf("El maximo elemento de cada cola: \n");
+   while (!vaciaP(*P)) {
+      sacaP(P,&num);
+      poneP(&aux,num);
+      printf("Nodo %d: %d",i++,num);
+   }
+   
+   while (!vacia(aux)) {
+      sacaP(&aux,&num);
+      poneP(P,num);
+   }
+   
 }
