@@ -31,7 +31,7 @@ int main() {
 
 void cargaLista(Lista *L){
    FILE *arch;
-   Lista nuevo,ant,act;
+   Lista nuevo;
    int i,n,dato;
    arch = fopen("datosEJ6.txt","r");
    *L = NULL;

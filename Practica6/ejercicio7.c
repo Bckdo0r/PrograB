@@ -34,6 +34,11 @@ typedef struct nodo{
 
 typedef nodo *Lista;
 
+//!funcion para agregar nodos a la lista
+void agregaNodoL(Lista *,string,int);
+//!funcion para agregar nodos a la sublista
+void agregaNodoSL(SubLista *,string,int,char);
+
 void cargaEquipos(Lista *);
 void listaJugK(Lista *);
 void listaClubMasX(Lista *);
@@ -46,3 +51,66 @@ int main() {
    return 0;
 }
 
+void agregaNodoL(Lista *L,string club,int puntos){
+   Lista new,ant,act;
+   
+   new = (Lista*)malloc(sizeof(nodo));
+   act = *L;
+   ant = NULL;
+   
+   strcpy(new->club,club);
+   new->puntos = puntos;
+   new->jug = NULL;
+
+   while (act != NULL && act->puntos < puntos){
+      ant = act;
+      act = act->sig;
+   }
+
+   if (ant == NULL){
+      new->sig = *L;
+      *L = new;
+   }
+   else{
+      ant->sig = new;
+      new->sig = act;
+   }
+}
+
+void agregaNodoSL(SubLista *sL,string nombre,int edad,char estado){
+   SubLista new;
+
+   new = (SubLista*)malloc(sizeof(nodito));
+   strcpy(new->nombre,nombre);
+   new->edad = edad;
+   new->estado = estado;
+
+   new->sig = *sL;
+   *sL = new;
+}
+
+void cargaEquipos(Lista *L){
+   FILE *arch;
+   int puntos,edad,n,i;
+   char estado;
+   string nombre,club;
+
+   *L = NULL;
+   arch = fopen("datosEJ7.txt","r");
+
+   if (arch==NULL)
+      printf("Error lens.");
+   else {
+      while(fscanf(arch,"%s %d %d",club,&puntos,&n) == 3){
+        
+         
+         for (i=0; i<n ;i++){
+            fscanf(arch,"%s %d %c",nombre,&edad,&estado);
+            
+         }
+
+      }
+   }
+
+
+}

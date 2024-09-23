@@ -10,7 +10,6 @@ Robert      35     S
 Raphinha    27     A
 Marc        32     A
 Ronald      24     S
-
 Boca-Juniors 9 10
 Agustin     25     A
 Marcos      26     A
@@ -22,7 +21,6 @@ Valentin    22     S
 Sergio      24     A
 Miguel      28     A
 Nicolas     31     S
-
 Liverpool 7 9
 Mohamed     31     A
 Alisson     31     A
@@ -33,7 +31,6 @@ Luis        26     S
 Curtis      23     A
 Alexis      25     A
 Joel        32     A
-
 Flamengo 2 12
 Gabriel     27     A
 Bruno       32     A
