@@ -79,7 +79,7 @@ void agregaNodoL(Lista *L, string club, int puntos)
       act = act->sig;
    }
 
-   if (ant == NULL)
+   if (act == *L)
    {
       new->sig = *L;
       *L = new;
@@ -108,7 +108,7 @@ void cargaEquipos(Lista *L)
    FILE *arch;
    int puntos, edad, n, i;
    char estado;
-   Lista act = NULL;
+   Lista ant, act = NULL;
    string nombre, club;
 
    *L = NULL;
@@ -122,16 +122,18 @@ void cargaEquipos(Lista *L)
       {
          agregaNodoL(L, club, puntos);
 
-         if (act == NULL)
-            act = *L;
+         act = *L; // Apuntar al inicio de la lista
+
+         while (act->sig != NULL) // Avanzar hasta encontrar el equipo recién agregado
+         {
+            act = act->sig;
+         }
 
          for (i = 0; i < n; i++)
          {
             fscanf(arch, "%s %d %c", nombre, &edad, &estado);
             agregaNodoSL(&(act->jug), nombre, edad, estado);
          }
-
-         act = act->sig;
       }
    }
 }
@@ -196,9 +198,9 @@ void listaClubMasX(Lista L, int puntos)
          while (auxS != NULL)
          {
             printf("\t %s: %d %c\n", auxS->nombre, auxS->edad, auxS->estado);
-            auxS = auxS->sig;
             suma += auxS->edad;
             cont++;
+            auxS = auxS->sig;
          }
          printf("Promedio de edad: %.2f\n", ((float)suma) / cont);
       }
