@@ -40,7 +40,7 @@ int main()
 
     cargaListas(&LD, &LC);
     mostrarListas(LD, LC);
-    elimina(&LD, &LC, 138);
+    elimina(&LD, &LC, 2);
     mostrarListas(LD, LC);
 
     return 0;
@@ -48,7 +48,7 @@ int main()
 
 void agregaNodoLD(ListaD *LD, char car)
 {
-
+    PnodoD act;
     PnodoD nuevo = (PnodoD)malloc(sizeof(nodoD));
     nuevo->car = car;
     nuevo->ant = NULL;
@@ -59,18 +59,35 @@ void agregaNodoLD(ListaD *LD, char car)
         LD->pri = nuevo;
         LD->ult = nuevo;
     }
-    else
+    else if (car < LD->pri->car)
+    {
+        nuevo->sig = LD->pri;
+        LD->pri->ant = nuevo;
+        LD->pri = nuevo;
+    }
+    else if (car > LD->ult->car)
     {
         nuevo->ant = LD->ult;
         LD->ult->sig = nuevo;
         LD->ult = nuevo;
     }
+    else
+    {
+        act = LD->pri;
+
+        while (car > act->car)
+            act = act->sig;
+
+        nuevo->sig = act;
+        nuevo->ant = act->ant;
+        act->ant->sig = nuevo;
+        act->ant = nuevo;
+    }
 }
 
 void agregaNodoLC(ListaC *LC, char car)
 {
-
-    ListaC nuevo = (ListaC)malloc(sizeof(nodo));
+    ListaC ant, act, nuevo = (ListaC)malloc(sizeof(nodo));
     nuevo->car = car;
 
     if (*LC == NULL)
@@ -78,11 +95,24 @@ void agregaNodoLC(ListaC *LC, char car)
         nuevo->sig = nuevo;
         *LC = nuevo;
     }
-    else
+    else if (car > (*LC)->car)
     {
         nuevo->sig = (*LC)->sig;
         (*LC)->sig = nuevo;
         *LC = nuevo;
+    }
+    else
+    {
+        act = *LC;
+
+        do
+        {
+            ant = act;
+            act = act->sig;
+        } while (act != *LC && car > act->car);
+
+        nuevo->sig = act;
+        ant->sig = nuevo;
     }
 }
 
@@ -100,7 +130,6 @@ void cargaListas(ListaD *LD, ListaC *LC)
 
         while (fscanf(arch, "%c", &car) == 1)
         {
-
             agregaNodoLD(LD, car);
             agregaNodoLC(LC, car);
         }
