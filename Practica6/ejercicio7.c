@@ -26,15 +26,15 @@ typedef struct nodito
 
 typedef nodito *SubLista;
 
-typedef struct nodo
+typedef struct nodoD
 {
    string club;
    int puntos;
    SubLista jug;
-   struct nodo *sig;
-} nodo;
+   struct nodoD *sig;
+} nodoD;
 
-typedef nodo *Lista;
+typedef nodoD *Lista;
 
 //! funcion para agregar nodos a la lista
 void agregaNodoL(Lista *, string, int);
@@ -65,7 +65,7 @@ void agregaNodoL(Lista *L, string club, int puntos)
 {
    Lista new, ant, act;
 
-   new = (Lista)malloc(sizeof(nodo));
+   new = (Lista)malloc(sizeof(nodoD));
    act = *L;
    ant = NULL;
 

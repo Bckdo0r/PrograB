@@ -11,15 +11,15 @@ typedef struct nodito
 
 typedef nodito *SubLista;
 
-typedef struct nodo
+typedef struct nodoD
 {
    int num;
    float cred, deuda;
-   struct nodo *sig;
+   struct nodoD *sig;
    SubLista *sub;
-} nodo;
+} nodoD;
 
-typedef nodo *Lista;
+typedef nodoD *Lista;
 
 void insertaPago(Lista, int, char *, float imp);
 
@@ -39,7 +39,8 @@ void insertaPago(Lista L, int numC, char *fecha, float imp)
    L->deuda -= imp;
    auxS = L->sub;
 
-   while (auxS != NULL && strcmp(auxS->fecha, fecha) > 0) {
+   while (auxS != NULL && strcmp(auxS->fecha, fecha) > 0)
+   {
       antS = auxS;
       auxS = auxS->sig;
    }
@@ -48,37 +49,43 @@ void insertaPago(Lista L, int numC, char *fecha, float imp)
    strcpy(nuevoS->fecha, fecha);
    nuevoS->imp = imp;
 
-   if (auxS == L->sub) {
+   if (auxS == L->sub)
+   {
       nuevoS->sig = auxS;
       L->sub = nuevoS;
    }
-   else {
+   else
+   {
       antS->sig = nuevoS;
       nuevoS->sig = auxS;
    }
 }
 
-void eliminaPago(Lista L, int numC, char *fecha) {
+void eliminaPago(Lista L, int numC, char *fecha)
+{
    SubLista antS, actS, elimS;
 
-   while(L != NULL && L->num < numC) 
+   while (L != NULL && L->num < numC)
       L = L->sig;
-   
-   if (L != NULL && L->num == numC) {
+
+   if (L != NULL && L->num == numC)
+   {
       actS = L->sub;
 
-      while (actS != NULL && strcmp(actS->fecha, fecha) > 0) {
+      while (actS != NULL && strcmp(actS->fecha, fecha) > 0)
+      {
          antS = actS;
          actS = actS->sig;
       }
 
-      if (actS != NULL && strcmp(actS->fecha, fecha) == 0) {
+      if (actS != NULL && strcmp(actS->fecha, fecha) == 0)
+      {
          L->deuda += actS->imp;
          elimS = actS;
 
-         if (actS == L->sub) 
+         if (actS == L->sub)
             L->sub = actS->sig;
-         else 
+         else
             antS->sig = actS->sig;
 
          free(elimS);
@@ -86,36 +93,40 @@ void eliminaPago(Lista L, int numC, char *fecha) {
    }
 }
 
-void eliminaCliente(Lista *L,int numC, int *cont){
-   Lista ant,elim;
-   SubLista antS,auxS;
+void eliminaCliente(Lista *L, int numC, int *cont)
+{
+   Lista ant, elim;
+   SubLista antS, auxS;
 
    *cont = 0;
 
    ant = NULL;
    elim = *L;
-   while (elim != NULL && elim->num < numC){
+   while (elim != NULL && elim->num < numC)
+   {
       ant = elim;
       elim = elim->sig;
    }
 
-   if (elim != NULL && elim->num == numC){
+   if (elim != NULL && elim->num == numC)
+   {
       auxS = elim->sub;
       antS = NULL;
 
-      while (auxS != NULL){
+      while (auxS != NULL)
+      {
          antS = auxS;
          free(antS);
          auxS = auxS->sig;
          (*cont)++;
       }
 
-      //!CABECERA
+      //! CABECERA
       if (elim == *L)
          *L = (*L)->sig;
       else
          ant->sig = elim->sig;
-      
-      free(elim);      
+
+      free(elim);
    }
 }

@@ -9,14 +9,14 @@ el texto con su frecuencia de aparición.  */
 
 typedef char string[MAX + 1];
 
-typedef struct nodo
+typedef struct nodoD
 {
     string palabra;
     int frecuencia;
-    struct nodo *sig;
-} nodo;
+    struct nodoD *sig;
+} nodoD;
 
-typedef nodo *Lista;
+typedef nodoD *Lista;
 
 void cargaLista(Lista *);
 void muestraLista(Lista);
@@ -41,36 +41,40 @@ void cargaLista(Lista *L)
 
     if ((arch = fopen("datosEJ3.txt", "r")) == NULL)
         printf("Error lens\n");
-    else {
+    else
+    {
 
-        //Bucle para leer archivo
-        while (fscanf(arch, "%s", palabra) == 1) {
+        // Bucle para leer archivo
+        while (fscanf(arch, "%s", palabra) == 1)
+        {
             act = *L;
             ant = NULL;
 
-            //Bucle para comprobar si la palabra leida esta en la lista
-            while (act != NULL && strcmp(act->palabra, palabra) < 0) {
+            // Bucle para comprobar si la palabra leida esta en la lista
+            while (act != NULL && strcmp(act->palabra, palabra) < 0)
+            {
                 ant = act;
                 act = act->sig;
             }
 
-            //!Verificacion de condicion de salida
-            //Si sale porque esta en la lista, se aumenta la frecuencia
+            //! Verificacion de condicion de salida
+            // Si sale porque esta en la lista, se aumenta la frecuencia
             if (act != NULL && strcmp(act->palabra, palabra) == 0)
                 act->frecuencia++;
-            
-            //Si sale porque no esta, se crea un nodo para agregar a la lista    
-            else {
-                nuevo = (Lista)malloc(sizeof(nodo));
 
-                //Se pega la palabra y se inicia el contador de frecuencia
+            // Si sale porque no esta, se crea un nodo para agregar a la lista
+            else
+            {
+                nuevo = (Lista)malloc(sizeof(nodoD));
+
+                // Se pega la palabra y se inicia el contador de frecuencia
                 strcpy(nuevo->palabra, palabra);
                 nuevo->frecuencia = 1;
 
-                //!Que el puntero del nuevo nodo apunte a actual
+                //! Que el puntero del nuevo nodo apunte a actual
                 nuevo->sig = act;
 
-                //TODO para que son estos condicionales?
+                // TODO para que son estos condicionales?
                 if (act == *L)
                     *L = nuevo;
                 else
@@ -82,7 +86,8 @@ void cargaLista(Lista *L)
 
 void muestraLista(Lista L)
 {
-    while (L != NULL) {
+    while (L != NULL)
+    {
         printf("%s: %d\n", L->palabra, L->frecuencia);
         L = L->sig;
     }

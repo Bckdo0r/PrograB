@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-typedef struct nodo
+typedef struct nodoD
 {
     int dato;
-    struct nodo *sig;
-} nodo;
-typedef nodo *Lista;
+    struct nodoD *sig;
+} nodoD;
+typedef nodoD *Lista;
 
 void cargaListaD();
 
