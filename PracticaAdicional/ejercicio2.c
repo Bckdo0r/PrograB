@@ -17,7 +17,7 @@ typedef nodoL *Lista;
 void agregaNodo(Lista *,int);
 void cargaLista(Lista *);
 void imprimeLista(Lista);
-void generaListas(Lista,Lista *,Lista *);
+void generaListas(Lista *,Lista *,Lista *);
 
 int main() {
     Lista L,LI,LP; //LI = Lista impares descendentes, LP = Lista pares ascendentes
@@ -28,7 +28,7 @@ int main() {
     cargaLista(&L);
     printf("Lista main: ");
     imprimeLista(L);
-    generaListas(L,&LI,&LP);
+    generaListas(&L,&LI,&LP);
     printf("\nLista impares descendentes: ");
     imprimeLista(LI);
     printf("\nLista pares ascendentes: ");
@@ -42,28 +42,18 @@ void agregaNodo(Lista *L,int num){
     new = (nodoL*)malloc(sizeof(nodoL));
     new->num=num;
     
-    if (*L == NULL){
-        new->sig = NULL;
+    if (*L == NULL || (*L)->num > num){
+        new->sig = *L;
         *L = new;
-    }
-    else if ((*L)->num > num){
-        new->sig = (*L)->sig;
-        (*L)->sig = new;
     }
     else{
         act = *L;
-        while (act->sig != NULL && act->num < num){
+        while (act != NULL && num > act->num){
             ant = act;
             act = act->sig;
         }
-        if (act->num > num){
-            new->sig = act;
-            ant->sig = new;
-        }
-        else{
-            new->sig = NULL;
-            act->sig = new;
-        }
+        new->sig = act;
+        ant->sig = new;
     }        
 }
 
@@ -87,20 +77,27 @@ void imprimeLista(Lista L){
     }
 }
 
-void generaListas(Lista L,Lista *LI,Lista *LP){
-    Lista aux;
+void generaListas(Lista *L,Lista *LI,Lista *LP){
+    Lista aux,ultP;
 
-    while (L != NULL) {
-        if (L->num % 2 == 0){
-            (*LP)->sig = L;
-            (*LP)->sig = NULL;
+    *LP = *LI = NULL;
+    while (*L != NULL) {
+        aux = *L;
+        *L = (*L)->sig;
+        if (aux->num % 2 != 0){
+            aux->sig = *LI;
+            *LI = aux;
         }
         else {
-            generaListas(L,&LI,&LP);
-            (*LP)->sig = L;
-            (*LP)->sig = NULL;
+            if (*LP == NULL){
+                *LP = aux;
+                ultP = *LP;
+            }    
+            else {
+                ultP->sig = aux;
+                ultP = aux;
+            } 
         }
-        L = L->sig;
     }
-    
+    ultP->sig = NULL;
 }
