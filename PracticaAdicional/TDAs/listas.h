@@ -24,3 +24,4 @@ void agregaNodoLc(ListaC *,ElementoL);
 void agregaNodoLcOrd(ListaC *,ElementoL);
 void agregaNodoLd(ListaD *,ElementoL);
 void agregaNodoLdOrd(ListaD *,ElementoL);
+void muestraLD(ListaD);
