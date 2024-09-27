@@ -7,51 +7,55 @@ c) eliminar de L1 los nodos cuyas posiciones se encuentran en L2, la cual está 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "TDAs/listas.h"
 
-typedef struct nodo
+/*typedef struct nodo
 {
-   int num;
+   int dato;
    struct nodo *sig;
 } nodoL;
 
 typedef nodoL *Lista;
-
-void agregaNodoSO(Lista *, int); // SO = sin orden
-void agregaNodo(Lista *, int);
-void cargaLista(Lista *, Lista *);
-int verificaIgual(Lista, Lista);
-void juntaListas(Lista, Lista);
-void eliminaNodos(Lista *, Lista);
-void muestraLista(Lista);
+*/
+//void agregaNodoSO(Lista *, int); // SO = sin orden
+//void agregaNodo(Lista *, int);
+void cargaLista(ListaS *, ListaS *);
+int verificaIgual(ListaS, ListaS);
+void juntaListas(ListaS, ListaS);
+void eliminaNodos(ListaS *, ListaS);
+void muestraLista(ListaS);
 
 int main()
 {
-   Lista L1, L2;
+   ListaS L1, L2;
 
    L1 = NULL;
    L2 = NULL;
 
    cargaLista(&L1, &L2);
+   printf("L1: ");
    muestraLista(L1);
-   printf("\n");
+   printf("L2: ");
    muestraLista(L2);
-   printf("\n");
    printf("Las listas son iguales? %s", verificaIgual(L1, L2) ? "SI" : "NO");
    printf("\n");
-   // juntaListas(L1, L2);
-   //  muestraLista(L1);
-   //  muestraLista(L2);
+   juntaListas(L1, L2);
+   printf("L1: ");
+   muestraLista(L1);
+   printf("L2: ");
+   muestraLista(L2);
    eliminaNodos(&L1, L2);
+   printf("L1: ");
    muestraLista(L1);
 
    return 0;
 }
 
-void agregaNodoSO(Lista *L, int n)
+/*void agregaNodoSO(Lista *L, int n)
 {
    Lista aux, new;
    new = (Lista)malloc(sizeof(nodoL));
-   new->num = n;
+   new->dato = n;
    aux = *L;
    while (aux->sig != NULL)
       aux = aux->sig;
@@ -59,13 +63,13 @@ void agregaNodoSO(Lista *L, int n)
    new->sig = NULL;
 }
 
-void agregaNodo(Lista *L, int num)
+void agregaNodo(Lista *L, int dato)
 {
    Lista new, ant, act;
    new = (nodoL *)malloc(sizeof(nodoL));
-   new->num = num;
+   new->dato = dato;
 
-   if (*L == NULL || (*L)->num > num)
+   if (*L == NULL || (*L)->dato > dato)
    {
       new->sig = *L;
       *L = new;
@@ -73,7 +77,7 @@ void agregaNodo(Lista *L, int num)
    else
    {
       act = *L;
-      while (act != NULL && num > act->num)
+      while (act != NULL && dato > act->dato)
       {
          ant = act;
          act = act->sig;
@@ -81,12 +85,12 @@ void agregaNodo(Lista *L, int num)
       new->sig = act;
       ant->sig = new;
    }
-}
+}*/
 
-void cargaLista(Lista *L1, Lista *L2)
+void cargaLista(ListaS *L1, ListaS *L2)
 {
    FILE *arch;
-   int i, j, num;
+   int i, j, dato;
 
    arch = fopen("datosEJ1.txt", "r");
 
@@ -97,22 +101,22 @@ void cargaLista(Lista *L1, Lista *L2)
       fscanf(arch, "%d", &i);
       for (j = 0; j < i; j++)
       {
-         fscanf(arch, "%d", &num);
-         agregaNodo(L1, num);
+         fscanf(arch, "%d", &dato);
+         agregaNodoLsOrd(L1, dato);
       }
       fscanf(arch, "%d", &i);
       for (j = 0; j < i; j++)
       {
-         fscanf(arch, "%d", &num);
-         agregaNodo(L2, num);
+         fscanf(arch, "%d", &dato);
+         agregaNodoLsOrd(L2, dato);
       }
    }
    fclose(arch);
 }
 
-int verificaIgual(Lista L1, Lista L2)
+int verificaIgual(ListaS L1, ListaS L2)
 {
-   while (L1 != NULL && L2 != NULL && L1->num == L2->num)
+   while (L1 != NULL && L2 != NULL && L1->dato == L2->dato)
    {
       L1 = L1->sig;
       L2 = L2->sig;
@@ -125,18 +129,18 @@ int verificaIgual(Lista L1, Lista L2)
 L1. En otro caso, añadir L1 al final de L2. */
 
 //! Complex
-void juntaListas(Lista L1, Lista L2)
+void juntaListas(ListaS L1, ListaS L2)
 {
-   Lista aux;
+   ListaS aux;
    int n;
 
    aux = L1;
    while (aux->sig != NULL)
       aux = aux->sig;
 
-   n = aux->num;
+   n = aux->dato;
 
-   if (L2->num > n)
+   if (L2->dato > n)
    {
       aux->sig = L2;
       muestraLista(L1);
@@ -157,9 +161,9 @@ void juntaListas(Lista L1, Lista L2)
 
 // eliminar de L1 los nodos cuyas posiciones se encuentran en L2, la cual está ordenada.
 
-void eliminaNodos(Lista *L1, Lista L2)
+void eliminaNodos(ListaS *L1, ListaS L2)
 {
-   Lista ant, act, elim;
+   ListaS ant, act, elim;
    int i = 1;
 
    act = *L1;
@@ -167,12 +171,12 @@ void eliminaNodos(Lista *L1, Lista L2)
    while (act != NULL)
    {
 
-      while (L2 != NULL && L2->num <= 0)
+      while (L2 != NULL && L2->dato <= 0)
          L2 = L2->sig;
 
       if (L2 != NULL)
       {
-         while (i < L2->num)
+         while (i < L2->dato)
          {
             i++;
             ant = act;
@@ -194,11 +198,12 @@ void eliminaNodos(Lista *L1, Lista L2)
    }
 }
 
-void muestraLista(Lista L)
+void muestraLista(ListaS L)
 {
    while (L != NULL)
    {
-      printf("%d ", L->num);
+      printf("%d ", L->dato);
       L = L->sig;
    }
+   printf("\n");
 }
