@@ -31,8 +31,8 @@ int contHojas(Arbol A){
          return 1 + contHojas(A);
 
    }
-}
 
+}
 int main() {
 
 
