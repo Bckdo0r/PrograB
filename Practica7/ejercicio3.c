@@ -1,0 +1,55 @@
+/* Desarrollar funciones para:
+a) devolver la suma de los elementos múltiplos de 3 de un árbol binario.
+b) retornar la cantidad de hojas de un árbol binario.
+c) informar si un valor recibido como parámetro se encuentra en un árbol binario.  */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include "TDA/arboles.h"
+
+
+int sumaMult3(arbol,int);
+int cantHojas(arbol, int);
+//int seEncuentra(arbol, TElementoA);
+
+int main() {
+   arbol a;
+
+   addNodo(&a, 5);
+   addNodo(&a->izq, 8);
+   addNodo(&a->izq->izq, 3);
+   addNodo(&a->izq->der, 6);
+   addNodo(&a->der, 4);
+   addNodo(&a->der->izq, 1);
+   addNodo(&a->der->izq->der, 2);
+
+   printf("Suma de los elementos multiplos de 3: %d\n",sumaMult3(a,0));
+   printf("Cantidad de hojas: %d\n",cantHojas(a,0));
+
+   return 0;
+}
+
+int sumaMult3(arbol A,int suma){
+   if (A == NULL)
+      return suma; //caso base
+   
+   if (A->dato % 3 == 0)
+      suma += (A->dato);
+
+   suma = sumaMult3(A->izq,suma);
+   suma = sumaMult3(A->der,suma);
+    
+   return suma; //lleva el valor de suma a lo largo de la recursividad      
+}
+
+int cantHojas(arbol A, int cont){
+   if (A == NULL)
+      return ++cont;
+
+   cont = cantHojas(A->izq,cont);
+   cont = cantHojas(A->der,cont);
+
+   return cont;   
+}
+

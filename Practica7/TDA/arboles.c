@@ -3,18 +3,11 @@
 #include <string.h>
 #include "arboles.h"
 
-void addNodo(arbol *A,TElementoA x){
-   arbol new;
-
-   if (*A == NULL) {
-      new = (arbol) malloc(sizeof(NODO));
-      new->izq = NULL;
-      new->der = NULL;
-   } else if (x < (*A)->dato) {
-      addNodo(&((*A)->izq), x);
-   } else {
-      addNodo(&((*A)->der), x);
-   }
+void addNodo(arbol* a, TElementoA e) {
+    *a = (arbol)malloc(sizeof(NODO));
+    (*a)->dato = e;
+    (*a)->izq = NULL;
+    (*a)->der = NULL;
 }
 
 
