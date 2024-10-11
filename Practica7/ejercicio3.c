@@ -11,10 +11,11 @@ c) informar si un valor recibido como parámetro se encuentra en un árbol binar
 
 int sumaMult3(arbol,int);
 int cantHojas(arbol, int);
-//int seEncuentra(arbol, TElementoA);
+int seEncuentra(arbol, TElementoA);
 
 int main() {
    arbol a;
+   TElementoA x=7;
 
    addNodo(&a, 5);
    addNodo(&a->izq, 8);
@@ -26,7 +27,7 @@ int main() {
 
    printf("Suma de los elementos multiplos de 3: %d\n",sumaMult3(a,0));
    printf("Cantidad de hojas: %d\n",cantHojas(a,0));
-
+   printf("El numero %d %s se encuentra en el arbol.\n",x,seEncuentra(a,x)? "SI":"NO");
    return 0;
 }
 
@@ -45,7 +46,10 @@ int sumaMult3(arbol A,int suma){
 
 int cantHojas(arbol A, int cont){
    if (A == NULL)
-      return ++cont;
+      return cont;
+
+   if (A->izq == NULL && A->der == NULL)
+      ++cont;
 
    cont = cantHojas(A->izq,cont);
    cont = cantHojas(A->der,cont);
@@ -53,3 +57,12 @@ int cantHojas(arbol A, int cont){
    return cont;   
 }
 
+int seEncuentra(arbol A,TElementoA x){
+   if (A == NULL)
+      return 0;
+
+   if (A->dato == x)
+      return 1;
+
+   return seEncuentra(A->izq,x) || seEncuentra (A->der,x);
+}
