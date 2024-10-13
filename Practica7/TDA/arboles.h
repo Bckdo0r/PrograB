@@ -1,4 +1,4 @@
-typedef char TElementoA[20];
+typedef char TElementoA[15];
 
 typedef struct nodo{
    TElementoA dato;
