@@ -1,11 +1,12 @@
-typedef char TElementoA[15];
+typedef int TElementoA;
 
-typedef struct nodo{
+typedef struct nodo
+{
    TElementoA dato;
    struct nodo *izq;
    struct nodo *der;
 } NODO;
 
-typedef NODO * arbol;
+typedef NODO *arbol;
 
-void addNodo(arbol*, TElementoA);
+void addNodo(arbol *, TElementoA);
