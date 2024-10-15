@@ -1,5 +1,5 @@
 /*
-Generar un arreglo de caracteres con el contenido de las claves de un ABB. Los elementos del
+Generar un arreglo de enteros con el contenido de las claves de un ABB. Los elementos del
 arreglo deben quedar ordenados descendentemente.
 */
 
@@ -8,7 +8,8 @@ arreglo deben quedar ordenados descendentemente.
 #include <string.h>
 #include "TDA/arboles.h"
 
-void generaVec(arbol, int[], int);
+void _generaVec(arbol, int[], int *);
+void generaVec(arbol, int[]);
 
 int main()
 {
@@ -23,24 +24,27 @@ int main()
     addNodo(&a->der->izq->der, 17);
     addNodo(&a->der->der, 25);
 
-    generaVec(a, vec, 0);
+    generaVec(a, vec);
 
     for (int i = 0; i < 7; i++)
-    {
-        /* code */
         printf("%d ", vec[i]);
-    }
 
     return 0;
 }
 
-void generaVec(arbol a, int vec[], int i)
+void _generaVec(arbol a, int vec[], int *i)
 {
     if (a != NULL)
     {
-        generaVec(a->der, vec, i);
-        vec[i++] = a->dato;
+        _generaVec(a->der, vec, i);
+        vec[(*i)++] = a->dato;
         if (a->izq != NULL)
-            generaVec(a->izq, vec, i);
+            _generaVec(a->izq, vec, i);
     }
+}
+
+void generaVec(arbol a, int vec[])
+{
+    int i = 0;
+    _generaVec(a, vec, &i);
 }
