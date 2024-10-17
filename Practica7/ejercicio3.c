@@ -9,7 +9,7 @@ c) informar si un valor recibido como parámetro se encuentra en un árbol binar
 #include "TDA/arboles.h"
 
 
-int sumaMult3(arbol,int);
+int sumaMult3(arbol);
 int cantHojas(arbol, int);
 int seEncuentra(arbol, TElementoA);
 
@@ -25,23 +25,22 @@ int main() {
    addNodo(&a->der->izq, 1);
    addNodo(&a->der->izq->der, 2);
 
-   printf("Suma de los elementos multiplos de 3: %d\n",sumaMult3(a,0));
+   printf("Suma de los elementos multiplos de 3: %d\n",sumaMult3(a));
    printf("Cantidad de hojas: %d\n",cantHojas(a,0));
    printf("El numero %d %s se encuentra en el arbol.\n",x,seEncuentra(a,x)? "SI":"NO");
    return 0;
 }
 
-int sumaMult3(arbol A,int suma){
-   if (A == NULL)
-      return suma; //caso base
+int sumaMult3(arbol A){
+   int suma = 0;
    
+   if (A == NULL)
+      return 0; //caso base
+
    if (A->dato % 3 == 0)
       suma += (A->dato);
-
-   suma = sumaMult3(A->izq,suma);
-   suma = sumaMult3(A->der,suma);
     
-   return suma; //lleva el valor de suma a lo largo de la recursividad      
+   return suma + sumaMult3(A->izq) + sumaMult3(A->der); //lleva el valor de suma a lo largo de la recursividad      
 }
 
 int cantHojas(arbol A, int cont){

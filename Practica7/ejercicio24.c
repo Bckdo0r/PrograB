@@ -1,15 +1,18 @@
+/* Dado un árbol binario que proviene de la transformación de un bosque, hallar la cantidad de 
+árboles del bosque que tenían altura al menos K (dato de entrada)  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "TDA/arboles.h"
 
-int gradoNodo(arbol);
-void gradoArbol(arbol, int *);
-int gradoBosque(arbol);
+int altArbol(arbol,int);
+int recorreArbolBin(arbol,int);
 
-int main()
-{
+int main(){
+
     arbol a;
+    int K = 3;
 
     addNodo(&a, 1);                                          
     addNodo(&a->der, 2);                                     
@@ -27,53 +30,30 @@ int main()
     addNodo(&a->der->der->der, 7);                           
     addNodo(&a->der->der->der->der, 8);                      
 
-    printf("Grado maximo: %d\n", gradoBosque(a));
+    printf("Arboles del bosque con altura mayora a %d: %d\n",K,recorreArbolBin(a,K));
 
     return 0;
 }
 
-int gradoBosque(arbol a)
-{
-    int gr = 0;
-    int grMax = 0;
+int recorreArbolBin(arbol a,int k){
+    int cont = 0;
 
-    while (a != NULL)
-    {
-        gradoArbol(a->izq, &gr);
-
-        if (gr > grMax)
-            grMax = gr;
+    while (a != NULL){
+        if (altArbol(a->izq,1)>=k)
+            cont++;  
         a = a->der;
     }
-    return grMax;
+
+    return cont;
 }
 
-void gradoArbol(arbol a, int *gr)
-{
-    if (a != NULL)
-    {
-        int g = gradoNodo(a);
-
-        if (g > *gr)
-            *gr = g;
-
-        gradoArbol(a->izq, gr);
-        gradoArbol(a->der, gr);
-    }
-}
-
-int gradoNodo(arbol a)
-{
-    int g = 0;
+int altArbol(arbol a, int alt) {
+    int altIzq,altDer;
     if (a == NULL)
-        return 0;
+        return alt;
 
-    a = a->izq;
-    while (a != NULL)
-    {
-        g++;
-        a = a->der;
-    }
+    altIzq = altArbol(a->izq, alt + 1);
+    altDer = altArbol(a->der, alt);
 
-    return g;
+    return (altIzq > altDer) ? altIzq : altDer;
 }

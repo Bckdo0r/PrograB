@@ -43,9 +43,6 @@ unsigned short int raices(arbol a){
 
 }
 
-unsigned short int arbClavPar(){
-   while 
-}
 
 int main() {
 

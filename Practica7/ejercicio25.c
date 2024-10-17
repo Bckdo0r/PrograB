@@ -1,15 +1,18 @@
+/* Dado un árbol binario de números naturales que proviene de la transformación de un bosque, 
+devolver un arreglo con la clave mayor de cada uno de los árboles que conforman el bosque. */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "TDA/arboles.h"
 
-int gradoNodo(arbol);
-void gradoArbol(arbol, int *);
-int gradoBosque(arbol);
+int maxArbol(arbol);
+void generaArr(arbol,int []);
 
-int main()
-{
+int main() {
     arbol a;
+    
+    int *vec;
 
     addNodo(&a, 1);                                          
     addNodo(&a->der, 2);                                     
@@ -27,53 +30,13 @@ int main()
     addNodo(&a->der->der->der, 7);                           
     addNodo(&a->der->der->der->der, 8);                      
 
-    printf("Grado maximo: %d\n", gradoBosque(a));
+    generaArr(a,);
 
     return 0;
 }
 
-int gradoBosque(arbol a)
-{
-    int gr = 0;
-    int grMax = 0;
+void recorreBosq(arbol a){
+    int i,j;
 
-    while (a != NULL)
-    {
-        gradoArbol(a->izq, &gr);
 
-        if (gr > grMax)
-            grMax = gr;
-        a = a->der;
-    }
-    return grMax;
-}
-
-void gradoArbol(arbol a, int *gr)
-{
-    if (a != NULL)
-    {
-        int g = gradoNodo(a);
-
-        if (g > *gr)
-            *gr = g;
-
-        gradoArbol(a->izq, gr);
-        gradoArbol(a->der, gr);
-    }
-}
-
-int gradoNodo(arbol a)
-{
-    int g = 0;
-    if (a == NULL)
-        return 0;
-
-    a = a->izq;
-    while (a != NULL)
-    {
-        g++;
-        a = a->der;
-    }
-
-    return g;
 }
