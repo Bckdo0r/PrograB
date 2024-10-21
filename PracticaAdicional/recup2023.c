@@ -1,4 +1,4 @@
-#include <stdio.h>
+`#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../Practica5/TDAs/colas.h"
@@ -151,5 +151,5 @@ void actualizaSubL(subL *sub,int dest,ST7 cod,int cantP){
 }
 
 void preparacionPedidos(ListaS Ls,ListaC *Lc){
-
+    
 }
