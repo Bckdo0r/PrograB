@@ -1,4 +1,5 @@
 typedef int TElementoA;
+typedef int posicion;
 
 typedef struct nodo
 {
