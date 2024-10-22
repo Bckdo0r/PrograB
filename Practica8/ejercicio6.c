@@ -73,36 +73,74 @@ void carga(TVec V) {
     insertarEnLista(&V[6].L, 'D');
 }
 
-unsigned short int retornaBucles(Lista);
+unsigned short int retornaBucles(Lista,char);
 reg buscaVertice(TVec,char);
-int retornaGrE(Lista);
+int retornaGrE(TVec,char);
 int retornaGrS(Lista);
-int retornaGrVer(Lista);
+int retornaGrVer(TVec,Lista,char);
 
 int main(void) {
 
+    reg regVertice;
+    char V = 'D';
+    TVec vec;
+
+    carga(vec);
+    printf("Para el vertice %c: \n",V);
+    regVertice = buscaVertice(vec,V);
+    printf("Grado de entreda: %d\n",retornaGrE(vec,regVertice.nodo));
+    printf("Grado de salida: %d\n",retornaGrS(regVertice.L));
+    printf("Grado del vertice: %d\n",retornaGrVer(vec,regVertice.L,regVertice.nodo));
 
     return 0;
 }
 
 reg buscaVertice(TVec vec,char V){
+    int i=0;
+
+    while (i<N && vec[i].nodo != V)
+        i++;
     
+    return vec[i];
 }
 
-int retornaGrE(Lista L){
-    
-    return ;
+int retornaGrE(TVec vec, char V){
+    int i,gr = 0;
+    Lista aux;
+
+    for (i=0; i<N ;i++){
+        aux = vec[i].L;
+        while (aux != NULL && aux->nodo != V)
+            aux = aux->sig;
+        gr += aux != NULL;    
+    }
+
+    return gr;
 }
 
 int retornaGrS(Lista L){
+    int gr = 0;
+
+    while (L != NULL){
+        gr++;
+        L = L->sig;
+    }
+
+    return gr;
+}
+
+unsigned short int retornaBucles(Lista L,char V){
+    int cantBuc = 0;
+
+    while (L != NULL){
+        if (L->nodo == V)
+            cantBuc++;
+        L = L->sig;    
+    }
     
-    return ;
+    return cantBuc;
 }
 
-unsigned short int retornaBucles(Lista L){
-
-}
-
-int retornaGrVer(Lista L){
-    return retornaGrE(L) + retornaGrS(L) - retornaBucles(L);
+int retornaGrVer(TVec vec,Lista L,char V){
+    return retornaGrE(vec,V) + retornaGrS(L) - retornaBucles(L,V);
 }
