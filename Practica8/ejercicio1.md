@@ -1,3 +1,5 @@
+# Ejercicio 1
+
 a) grados de entrada y salida de cada vértice.
 b) todos los ciclos que pasan por el vértice C
 c) todos los caminos del vértice A al E

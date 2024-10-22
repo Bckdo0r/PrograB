@@ -7,7 +7,8 @@
     "stdlib.h": "c",
     "colas.h": "c",
     "listas.h": "c",
-    "arboles.h": "c"
+    "arboles.h": "c",
+    "grafo.h": "c"
   },
   "CodeGPT.apiKey": "CodeGPT Plus Beta",
   "cSpell.words": ["elim", "Pnodo", "posicion"]
