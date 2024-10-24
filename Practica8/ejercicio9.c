@@ -121,7 +121,7 @@ int main()
 void cargaGrados(VecGrE vec, TVec digrafo)
 {
     Lista act;
-    uint16_t i = 0;
+    int i = 0;
 
     while (i < N)
     {
@@ -137,9 +137,9 @@ void cargaGrados(VecGrE vec, TVec digrafo)
 
 grados verticeMayorGrE(VecGrE vec)
 {
-    u_int16_t iMax = 0, gradoMax = vec[0].grE;
+    int i,iMax = 0, gradoMax = vec[0].grE;
 
-    for (u_int16_t i = 0; i < N; i++)
+    for (i = 0; i < N; i++)
     {
         if (vec[i].grE > gradoMax)
         {

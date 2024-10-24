@@ -84,7 +84,7 @@ void cargaLista(TVec V)
     insertarEnLista(&V[6].L, 'D');
 }
 
-unsigned short int retornaBucles(Lista, char);
+unsigned int retornaBucles(Lista, char);
 reg buscaVertice(TVec, char);
 int retornaGrE(TVec, char);
 int retornaGrS(Lista);
@@ -146,7 +146,7 @@ int retornaGrS(Lista L)
     return gr;
 }
 
-uint16_t retornaBucles(Lista L, char V)
+unsigned int retornaBucles(Lista L, char V)
 {
     int cantBuc = 0;
 

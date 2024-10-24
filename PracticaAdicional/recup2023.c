@@ -1,4 +1,4 @@
-`#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../Practica5/TDAs/colas.h"
@@ -36,8 +36,13 @@ void cargaLs(ListaS *);
 void actualizaLC(ListaC *);
 void encuentraNodoLc(ListaC *,int,ST30,int,ListaC *);
 void actualizaSubL(subL *,int,ST7,int);
-void preparacionPedidos(ListaS,ListaC *);
+void preparacionPedidos(ListaS,ListaC);
+ListaC buscaPuesto(ListaC,int);
+ListaS buscaRobot(ListaS,int);
 void eliminaProd(ListaC,ListaS,ST7,int);
+void eliminaDeSL(subL *,ST7);
+void eliminaDeCola(TCola *,ST7);
+void trasbasaProd(subL *,int *,ListaC);
 
 int main(){
     int x = 5;
@@ -103,7 +108,7 @@ void enceuntraNodoLc(ListaC *Lc,int id,ST30 nom,int cantPs,ListaC *aux){
         act = (*Lc)->sig;
         ant = (*Lc);
 
-        while (act->idP != id|| act->idP < id){
+        while (act->idP != id || act->idP < id){
             act = act->sig;
             ant = ant->sig;
         }
@@ -150,6 +155,124 @@ void actualizaSubL(subL *sub,int dest,ST7 cod,int cantP){
     }
 }
 
-void preparacionPedidos(ListaS Ls,ListaC *Lc){
-    
+void preparacionPedidos(ListaS Ls, ListaC Lc){
+    ListaC aux;
+    TCola ColaAux;
+    TElementoC x;
+
+    iniciaC(&ColaAux);
+    while (Ls != NULL){
+        aux = buscaPuesto(Lc,Ls->idP);
+
+        if (aux != NULL){
+
+            while (!vaciaC(Ls->C)){
+                sacaC(&Ls->C,&x);
+
+                while (x.cantP > 0 && aux->sub != NULL){
+                    if (aux->sub->cod == x.cod)
+                        trasbasaProd(&aux->sub,&x.cantP,aux);
+                    aux->sub = aux->sub->sig;    
+                }
+                if (x.cantP > 0)
+                    poneC(&ColaAux,x);    
+            }
+
+            while(!vaciaC(ColaAux)){
+                sacaC(&ColaAux,&x);
+                poneC(&Ls->C,x);
+            }
+        }
+        else
+            printf("El PUESTO: %d que tiene seleccionado el ROBOT: %d no se encuentra en la lista de puestos",Ls->idP,Ls->idR);
+
+        Ls = Ls->sig;
+    }
 }
+
+ListaC buscaPuesto(ListaC Lc,int idP){
+    ListaC aux;
+    aux = Lc->sig;
+    while (aux != Lc && aux->idP < idP)
+        aux = aux->sig;
+    
+    return aux->idP == idP? aux:NULL;
+}
+
+void trasbasaProd(subL *SL,int *canP,ListaC Lc){
+    
+    while ((*canP) > 0 || (*SL)->prodS > (*SL)->prodE || Lc->prodTs > 0){
+        (*canP)--;
+        (*SL)->prodE++;
+        Lc->prodTs--;
+    }
+
+}
+
+void eliminaProd(ListaC Lc,ListaS Ls,ST7 cod,int puesto){
+    int i=1;
+    ListaC act;
+    ListaS auxLs;
+
+    act = Lc->sig;
+    while (act != Lc && i <= puesto){
+        eliminaDeSL(&act->sub,cod);
+        
+        auxLs = buscaRobot(Ls,i);
+        eliminaDeCola(&auxLs->C, cod);
+        
+        i++;
+        act = act->sig;
+    }
+}
+
+void eliminaDeSL(subL *SL,ST7 cod){
+    subL ant,act,elim;
+    
+    while (strcmp((*SL)->cod,cod) == 0){
+        elim = *SL;
+        *SL = (*SL)->sig;
+        free(elim);
+    }
+    
+    act = (*SL)->sig;
+    ant = *SL;
+    while(act != NULL){
+        
+        if (strcmp(act->cod,cod) == 0)
+            elim = act;
+            
+        act = act->sig;
+        ant->sig = act;
+        free(elim);    
+    }
+}
+
+void eliminaDeCola(TCola *C,ST7 cod){
+    TCola aux;
+    TElementoC x;
+    iniciaC(&aux);
+
+    if (!vaciaC(*C))
+        sacaC(C,&x);
+
+    while (!vaciaC(*C) && strcmp(x.cod,cod) < 0){
+        poneC(&aux,x);
+        sacaC(C,&x);
+    }
+
+    if (strcmp(x.cod,cod) > 0)
+        poneC(&aux,x);
+
+    while (!vaciaC(aux)){
+        sacaC(&aux,&x);
+        poneC(C,x);
+    }    
+}
+
+ListaS buscaRobot(ListaS Ls,int idP){
+    while (Ls != NULL && Ls->idP != idP)
+        Ls = Ls->sig;
+
+    return (Ls != NULL && Ls->idP == idP) ? Ls : NULL;    
+} 
