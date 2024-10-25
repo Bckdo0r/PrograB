@@ -11,21 +11,30 @@ d) Generar un vector de registros con grado y vértice para aquellos vértices, 
 #include <string.h>
 #include "grafo.h"
 
-typedef int Vec[N];
+typedef struct{
+    int gr;
+    char V;
+} registro;
+
+typedef registro VecReg[N];
+
+typedef int Vec [N];
 
 // a)
 void crearVec(TMat, Vec, int, int);
 
+void creaVecReg(TMat,VecReg,int *,int,int,int,int);
 // b)
 int _verticeConMayorGradoEntrada(TMat, int, int, int, int, int);
 char verticeConMayorGradoEntrada(TMat);
 
 // c)
-int cumple(TMat, int,int,int,int,int);
+int cumple(TMat, int,int,int,int);
 
 int main()
 {
-    int X = 2;
+    VecReg vec2;
+    int k = 0,X = 2; 
     TMat mat = {
         {0, 0, 1, 1, 0, 1, 0},
         {0, 0, 1, 1, 0, 0, 0},
@@ -35,7 +44,7 @@ int main()
         {1, 0, 1, 1, 0, 0, 1},
         {0, 0, 0, 1, 1, 1, 0}};
 
-    int matriz[N][N] = {
+    TMat matriz = {
         {0, 4, 0, 7, 3, 0, 5}, // A -> B, D, E, G
         {0, 0, 5, 0, 6, 1, 0}, // B -> C, E, F
         {0, 0, 0, 2, 8, 0, 3}, // C -> D, E, G
@@ -53,7 +62,11 @@ int main()
         printf("%c: %d\n", 'A' + i, vec[i]);
 
     printf("El vértice con mayor grado de entrada es: %c\n", verticeConMayorGradoEntrada(mat));
-    printf("Todos los vertices del grafo %s cumplen la condicion pedida.\n",cumple(matriz,0,0,N-1,N-1,X) ? "SI":"NO");
+    printf("Todos los vertices del grafo %s cumplen la condicion pedida.\n",cumple(matriz,0,0,0,X) ? "SI":"NO");
+    creaVecReg(mat,vec2,&k,0,0,0,X);
+
+    for (int i = 0; i < k; i++)
+        printf("Vertice %c: %d\n",vec2[i].V,vec2[i].gr);
 
     return 0;
 }
@@ -91,17 +104,51 @@ int _verticeConMayorGradoEntrada(TMat mat, int i, int j, int grado, int maxVerti
     return _verticeConMayorGradoEntrada(mat, i, j + 1, grado + mat[i][j], maxVertice, max);
 }
 
-// c)
-int cumple(TMat M,int i,int j,int f,int c,int X){
-    if (i > N && c < 1) //recorri toda la media matriz;
+/*
+    c)
+    {0, 4, 0, 7, 3, 0, 5}, 
+    {0, 0, 5, 0, 6, 1, 0}, 
+    {0, 0, 0, 2, 8, 0, 3}, 
+    {0, 0, 0, 0, 9, 4, 0}, 
+    {0, 0, 0, 0, 0, 7, 2}, 
+    {0, 0, 0, 0, 0, 0, 6}, 
+    {0, 0, 0, 0, 0, 0, 0}
+
+*/ 
+int cumple(TMat M,int i,int j,int V,int X){
+    if (V >= N ) //recorri toda la media matriz;
         return 1;
-    else{
-        
-        if (j>N)
-            return M[i][j] > X ? cumple(M,i+1,i+1,f,c,X) : cumple(M,i,j+1,f,c,X);
-        else if (f>0)
-            return M[f][c] > X ? cumple(M,i,j,c-1,c-1,X) : cumple(M,i,j,f-1,c,X);
+    else     
+        if (i<V)
+            if (M[i][j] > X)
+                return cumple(M,0,V+1,V+1,X);    
+            else
+                return cumple(M,i+1,j,V,X);
+
+        else if (j<N)
+            if (M[i][j] > X)   
+                return cumple(M,0,V+1,V+1,X);    
+            else
+                return cumple(M,i,j+1,V,X);
         else
-            return 0; 
+            return 0;    
+}
+
+void creaVecReg(TMat M,VecReg vec,int *k,int i,int j,int grV,int x){
+    if (i < N){
+        if (j<N)
+            if (M[i][j] > 0)
+                creaVecReg(M,vec,k,i,j+1,grV+1,x);
+            else
+                creaVecReg(M,vec,k,i,j+1,grV,x);    
+        else{
+            if (grV > x){
+                vec[*k].gr = grV;
+                vec[*k].V = 'A' + i;
+                (*k)++;
+            }
+            
+            creaVecReg(M,vec,k,i+1,0,0,x);    
+        }
     }
 }

@@ -1,6 +1,6 @@
 #define MAX 10000
 typedef struct {
-    int cod,cantP;    
+    int V;    
 } TElementoC;
 typedef struct {
 	TElementoC datos[MAX];
