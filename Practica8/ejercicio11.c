@@ -12,13 +12,14 @@ Para un grafo almacenado en una matriz de adyacencia, desarrollar funciones para
 #include "../Practica5/TDAs/pilasD.h"
 #include "grafo.h"
 
-void recorreDFS(TMat,char[]);
+void recorreDFS(TMat,int[],TElementoP);
 void recorreBFS(TMat,char[]);
 void recorreDFS2(TMat);
 void cuentaConexas(TMat);
+int comparar(const void *, const void *);
 
 int main() {
-    char VecDNF[N]={},VecBFS[N]={};
+    int VecDNF[N]={0},VecBFS[N]={0};
     TMat mat = {
         {0, 0, 1, 1, 0, 1, 0},
         {0, 0, 1, 1, 0, 0, 0},
@@ -28,12 +29,22 @@ int main() {
         {1, 0, 1, 1, 0, 0, 1},
         {0, 0, 0, 1, 1, 1, 0}};
 
-    printf("Recorrido BFS (en amplitud)\n");
-    recorreBFS(mat,VecBFS);
-    printf("\n");
+    TMat M = {
+        {0, 1, 0, 0, 0, 0},
+        {1, 0, 0, 0, 0, 0},
+        {0, 0, 0, 1, 0, 0},
+        {0, 0, 1, 0, 0, 0},
+        {0, 0, 0, 0, 0, 1},
+        {0, 0, 0, 0, 1, 0}
+    };    
+
+    //printf("Recorrido BFS (en amplitud)\n");
+    //recorreBFS(mat,VecBFS);
+    //printf("\n");
     printf("Recorrido DFS (en profundidad)\n");
-    recorreDFS(mat,VecDNF);
+    recorreDFS(mat,VecDNF,0);
     printf("\n");
+    cuentaConexas(M);
     return 0;
 }
 
@@ -62,16 +73,14 @@ void recorreBFS(TMat M,char orden[]){
 
 }
 
-void recorreDFS(TMat M,char orden[]){
+void recorreDFS(TMat M,int vec[],TElementoP x){
     TPila P;
     int j,verif;
-    int vec[N] = {0,0,0,0,0,0,0};
-    TElementoP x = 0,aux;
 
     iniciaP(&P);
     poneP(&P,x);
     vec[x] = 1;
-    printf("%c ",(char)x + 'A');
+    //printf("%c ",(char)x + 'A');
     while(!vaciaP(P)){
         
         j = 0;
@@ -86,7 +95,7 @@ void recorreDFS(TMat M,char orden[]){
 
         if (j<N && vec[j]==0){
             poneP(&P,x);
-            printf("%c ",(char)(j + 'A'));
+            //printf("%c ",(char)(j + 'A'));
             poneP(&P,j);
             vec[j] = 1;
             x = j;    
@@ -132,7 +141,28 @@ void recorreDFS2(TMat M){
     }
 }
 
-void cuentaConexas(TMat M){
-    int cont;
+int comparar(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
 
+void cuentaConexas(TMat M){
+    int cont = 0 ,i,j;
+    int sumaIdx[N] = {0};
+
+    for (i=0; i<N ;i++){
+        int vec[N] = {0};
+        recorreDFS(M,vec,i);
+        for (j=0; j<N ;j++)
+            if (vec[j]==1)
+                sumaIdx[i]+=j;        
+    }
+    qsort(sumaIdx,N,sizeof(int),comparar); //! ??
+    
+    // Siempre hay al menos un número único
+    for (i=0; i<N-1 ; i++) {
+        if (sumaIdx[i] != sumaIdx[i + 1]) {
+            cont++;
+        }
+    }
+    printf("La cantidad de componentes conexas son: %d\n",cont);
 }
