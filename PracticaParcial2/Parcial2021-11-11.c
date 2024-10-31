@@ -19,33 +19,73 @@ int main() {
 /* Dado un ABB de enteros sin repetir, obtener las calves mayor y menor considerando solamente los nodos
 de grado 2. Ademas retornar el nivel donde se encuentra cada una de las claves */
 
-void clavesMinMax(arbol a,Tclave *min,Tclave *max){
-    int verif = 0,nivel = 0;
-    arbol aux = a;
-    
-    while (aux->izq != NULL){
-        nivel++;
-        if (aux->der != NULL){
-            min->clave = aux->dato;
+void clavesMinMax(arbol a,Tclave *min,Tclave *max,int nivel){
+
+    if (a != NULL){
+        
+        if (a->dato < min->clave){
+            min->clave = a->dato;
             min->nivel = nivel;
-            if (!verif){
-                max->clave = min->clave;
-                max->nivel = min->nivel;
-                verif = 1;
-            }
         }
-        aux = aux->izq;
+        
+        else if (a->dato > max->clave){
+            max->clave = a->dato;
+            max->nivel = nivel;
+        }
+
+        clavesMinMax(a->izq,min,max,nivel+1);
+        clavesMinMax(a->der,min,max,nivel+1);
+    }
+        
+    
+}
+
+// EJ 2)
+
+/*
+Dado un arbol N-Ario de Nros naturales retornar mediante una funcion recursiva int la mayor clave de entre los nodos 
+de grado G (dato) o 2G. En caso de no existir retornar -1.
+*/  
+
+int Grado(arbol A, posicion p) {
+    int grado = 0;
+    posicion c;
+
+    if (Nulo(p))
+        return 0;
+
+    c = HijoMasIzq(A, p);
+
+    while (!Nulo(c)) {
+        grado++;
+        c = HermanoDer(A, c);
     }
 
-    nivel = 0;
-    aux = a;
-    do { 
-        if (aux->der != NULL){
-            max->clave = aux->dato;
-            max->nivel = nivel;
-        }   
-        nivel++;
-        aux = aux->der;
-    } while (aux != NULL);
+    return grado;
+}
+
+TElementoA MayorClave(arbol A, posicion p, int G, TElementoA max) {
+    posicion c;
+    TElementoA clave;
+    int grado;
+
+    if (Nulo(p))
+        return -1;
+
+    grado = Grado(A,p); 
     
+    if (grado >= G && grado <= 2 * G && Info(p) > max)
+        max = Info(p);
+
+    c = HijoMasIzq(A,p);
+    while(!Nulo(c)){
+        clave = MayorClave(A, c, max);
+
+        if (clave > max) 
+            clave = max;
+
+        c = HermanoDer(A, c);
+    }
+
+    return clave;
 }

@@ -8,19 +8,20 @@ Un nodo de grado 1 es aquel que tiene exactamente un hijo (solo un hijo izquierd
 #include <string.h>
 #include "../Practica7/TDA/arboles.h"
 
-int buscaClave(arbol a,int nivelMax,int nivelAct){
+int buscaClave(arbol a,int nivelMax,int nivelMin){
     int clave;
 
     if (a == NULL)
         return 1;
 
-    if (nivelMax > nivelAct)
-        return buscaClave(a->izq,nivelMax,nivelAct+1) && buscaClave(a->der,nivelMax,nivelAct+1);     
+    if (nivelMin < nivelAct)
+        return buscaClave(a->izq,nivelMin,nivelAct+1) && buscaClave(a->der,nivelMin,nivelAct+1);     
 
     if (a->izq != NULL && a->der == NULL && a->izq->izq == NULL){
-        nivelMax = nivelAct;
+        nivelMin = nivelAct;
         return a->dato;
     }
+    
 
 
     

@@ -27,7 +27,8 @@ int Grado(arbol A)
 
 int VerificaArbol(arbol A, int gradoRaiz)
 {
-    return A == NULL || (A->izq == NULL) ? 1 : Grado(A) == gradoRaiz && VerificaArbol(A->izq, gradoRaiz) && VerificaArbol(A->der, gradoRaiz);
+    return A == NULL || (A->izq == NULL) ? 1 :  // Es nulo o es Hoja
+        Grado(A) == gradoRaiz && VerificaArbol(A->izq, gradoRaiz) && VerificaArbol(A->der, gradoRaiz);
 }
 
 int VerificaBosque(arbol A)
