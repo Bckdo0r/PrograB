@@ -31,10 +31,7 @@ int verifica(arbol a,int K,int nivelAct){
 
     return verif;
 
-}#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../Practica7/TDA/arboles.h"
+}
 
 void cargaArbol(arbol);
 int verifica(arbol,int,int);
@@ -101,3 +98,6 @@ int verificaNivelK(arbol a, int K, int nivelAct, char padre, char hermanoDer) {
 
     return cumplePadre && cumpleHermano;
 }
+
+/* Daddo un arbol N-Arios de numeros naturales, retornar mediante una funcion recursiva int la mayor clave de entre
+los nodos de grado G o 2G */

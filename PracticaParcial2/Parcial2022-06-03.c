@@ -51,7 +51,7 @@ int EsHoja(arbol A, posicion p) {
     return Nulo(p) || Nulo(HijoMasIzq(A, p));
 }
 
-int Grado(arbol A, posicion p) {
+int GradoNArio(arbol A, posicion p) {
     posicion c;
     int gr = 0;
 
@@ -84,7 +84,7 @@ int Verifica(arbol A, posicion p) {
     if (Nulo(p))
         return 0;
 
-    if (!EsHoja(A, p) && EsVocal(Info(p)) && Grado(A, p) % 2 == 0) {
+    if (!EsHoja(A, p) && EsVocal(Info(p)) && GradoNArio(A,p) % 2 == 0) {
         c = HijoMasIzq(A, p);
         while (!Nulo(c) && existe) {
             existe = EsVocal(Info(c));

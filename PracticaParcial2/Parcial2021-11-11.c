@@ -8,7 +8,6 @@ typedef struct{
 } Tclave;
 
 void cargaArbol(arbol);
-void clavesMinMax(arbol,Tclave *,Tclave *);
 
 int main() {
 
@@ -79,7 +78,7 @@ TElementoA MayorClave(arbol A, posicion p, int G, TElementoA max) {
 
     c = HijoMasIzq(A,p);
     while(!Nulo(c)){
-        clave = MayorClave(A, c, max);
+        clave = MayorClave(A, c, G, max);
 
         if (clave > max) 
             clave = max;
