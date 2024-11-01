@@ -31,7 +31,7 @@ typedef struct
 typedef grados VecGrE[N];
 typedef reg TVec[N];
 
-void insertarEnLista(Lista *L, char nodo)
+void insertarEnLista(Lista *L, char nodo, )
 {
     Lista nuevoNodo = (Lista)malloc(sizeof(nodoL));
 
@@ -137,7 +137,7 @@ void cargaGrados(VecGrE vec, TVec digrafo)
 
 grados verticeMayorGrE(VecGrE vec)
 {
-    int i,iMax = 0, gradoMax = vec[0].grE;
+    int i, iMax = 0, gradoMax = vec[0].grE;
 
     for (i = 0; i < N; i++)
     {

@@ -3,11 +3,12 @@
 #include <string.h>
 #include "grafo.h"
 
-void insertarEnLista(Lista *L, char nodo)
+void insertarEnLista(Lista *L, char nodo, int peso)
 {
-    Lista nuevoNodo = (Lista)malloc(sizeof(nodoL));
+    Lista nuevoNodo = (Lista)malloc(sizeof(Vertice));
 
     nuevoNodo->nodo = nodo;
+    nuevoNodo->peso = peso;
     nuevoNodo->sig = *L;
     *L = nuevoNodo;
 }
@@ -32,30 +33,30 @@ void cargaLista(TVec V)
     V[6].L = NULL;
 
     // A -> [D, F]
-    insertarEnLista(&V[0].L, 'F');
-    insertarEnLista(&V[0].L, 'D');
+    insertarEnLista(&V[0].L, 'F', 1);
+    insertarEnLista(&V[0].L, 'D', 2);
 
     // B -> [C]
-    insertarEnLista(&V[1].L, 'C');
+    insertarEnLista(&V[1].L, 'C', 3);
 
     // C -> [A, F]
-    insertarEnLista(&V[2].L, 'F');
-    insertarEnLista(&V[2].L, 'A');
+    insertarEnLista(&V[2].L, 'F', 4);
+    insertarEnLista(&V[2].L, 'A', 5);
 
     // D -> [B, F]
-    insertarEnLista(&V[3].L, 'F');
-    insertarEnLista(&V[3].L, 'B');
+    insertarEnLista(&V[3].L, 'F', 6);
+    insertarEnLista(&V[3].L, 'B', 7);
 
     // E -> [D]
-    insertarEnLista(&V[4].L, 'D');
+    insertarEnLista(&V[4].L, 'D', 8);
 
     // F -> [D, G]
-    insertarEnLista(&V[5].L, 'G');
-    insertarEnLista(&V[5].L, 'D');
+    insertarEnLista(&V[5].L, 'G', 9);
+    insertarEnLista(&V[5].L, 'D', 10);
 
     // G -> [D, E]
-    insertarEnLista(&V[6].L, 'E');
-    insertarEnLista(&V[6].L, 'D');
+    insertarEnLista(&V[6].L, 'E', 11);
+    insertarEnLista(&V[6].L, 'D', 12);
 }
 
 void cargaMatriz(TMat mat)
