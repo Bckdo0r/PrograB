@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../Practica7/TDA/arboles.h"
-
+#include "../Practica8/grafo.h"
 
 /* Dado un arbol N-Ario de enteros, determinar mediante una unica funcion cuantos nodos del arbol son hojas y
 cuantos nodos del arbol tienen un hermano a izquierda que sea negativo. */
@@ -57,4 +57,40 @@ int main() {
     cuentaNodos(a,raiz(a),&cantHojas,&izqNeg);
 
     return 0;
+}
+
+/* Dada la matriz de adyacencia de un digrafo de N vertices y la matriz final de floyd para el mismo digrafo, hallar
+de forma recursive el vertice Vi que no tiene bucle y alcanza la mayor cantidad de vertices con costo mayor a X
+En el caso de que existan más que uno, devolver el ultimo. */
+
+int calculaPeso(TMat M,TMat F,int V,int j){
+    int peso = 0,indice;
+
+    if (j>N)
+        return peso;
+        
+    indice = F[V][j];
+
+    peso += indice ? calculaPeso(M, F, V, indice) : M[V][indice];
+
+    return peso + calculaPeso(M,F,V,j+1); 
+}
+
+int verticeCumple(TMat M,TMat F,int i,int X,int maxV,int maxPeso){
+    
+    if (i>N)
+        return maxV;
+    
+    if (M[i][i])
+        return verticeCumple(M,F,i+1,X,maxV,maxPeso);
+
+    int peso = calculaPeso(M,F,i,0);
+
+    if (peso >= maxPeso && peso > X){
+        maxPeso = peso;
+        maxV = i;
+    }
+
+    return verticeCumple(M,F,i+1,X,maxV,maxPeso);
+
 }

@@ -56,3 +56,7 @@ int cantNodos(arbol a,posicion p, int k1,int k2,int nivelAct){
 
     return cont;        
 }
+
+/* Dado un grafo G almacenado en una matriz de adyacencia de N*N, desarrolle una funcion que implemente en base al
+recorrido BFS, la detección de si G es o no conexo. No es necesario recorrer todas las componentes conexas */
+

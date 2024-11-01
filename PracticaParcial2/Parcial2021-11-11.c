@@ -88,3 +88,18 @@ TElementoA MayorClave(arbol A, posicion p, int G, TElementoA max) {
 
     return clave;
 }
+
+/* Dados un grafo G de N vertices, almacenado en el triangulo inf de una matriz de adyacencia A y un grafo G'
+de N vertices almacenado en triangulo sup de la matriz. G y G' son aciclicos y no tienen aristas ponderadas, 
+determinar si G'es subgrafo de G. RECORRER SOLO UNA VEZ. */
+
+int esSubgrafo(TMat M){
+    int iG = 0, jG = 0, iSG = 0, jSG = 0, V = 0;
+
+    while ()
+
+
+    while (i)
+    return M[i][j] && !M[j][i]
+
+}
