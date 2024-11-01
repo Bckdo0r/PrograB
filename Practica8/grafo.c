@@ -38,6 +38,7 @@ void cargaLista(TVec V)
 
     // B -> [C]
     insertarEnLista(&V[1].L, 'C', 3);
+    insertarEnLista(&V[1].L, 'B', 10);
 
     // C -> [A, F]
     insertarEnLista(&V[2].L, 'F', 4);
@@ -48,7 +49,7 @@ void cargaLista(TVec V)
     insertarEnLista(&V[3].L, 'B', 7);
 
     // E -> [D]
-    insertarEnLista(&V[4].L, 'D', 8);
+    insertarEnLista(&V[4].L, 'D', 1);
 
     // F -> [D, G]
     insertarEnLista(&V[5].L, 'G', 9);

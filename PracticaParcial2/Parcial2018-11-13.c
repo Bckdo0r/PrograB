@@ -29,24 +29,27 @@ char Determina(TVec Vec)
     for (i = 0; i < N; i++)
     {
         sub = Vec[i].L;
-        V = sub->nodo;
+        V = Vec[i].nodo;
         bucle = 0;
 
         while (sub != NULL)
         {
+            if (!bucle)
+                bucle = V == sub->nodo;
+
             hashMap[sub->nodo - 'A'].peso += sub->peso;
             hashMap[sub->nodo - 'A'].aristas++;
 
             sub = sub->sig;
-            if (sub)
-                bucle = V == sub->nodo;
         }
+
         if (!bucle)
             hashMap[V - 'A'].peso = 0;
     }
 
     for (i = 0; i < N; i++)
     {
+        printf("%c: %d %d\n", i + 'A', hashMap[i].peso, hashMap[i].aristas);
         prom = ((float)hashMap[i].peso / hashMap[i].aristas);
         if (prom > maxProm)
         {
