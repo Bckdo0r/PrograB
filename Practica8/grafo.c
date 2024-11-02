@@ -13,7 +13,7 @@ void insertarEnLista(Lista *L, char nodo, int peso)
     *L = nuevoNodo;
 }
 
-void cargaLista(TVec V)
+void cargaListaA(TVec V)
 {
     int i;
 
@@ -33,31 +33,37 @@ void cargaLista(TVec V)
     V[6].L = NULL;
 
     // A -> [D, F]
-    insertarEnLista(&V[0].L, 'F', 1);
-    insertarEnLista(&V[0].L, 'D', 2);
+    insertarEnLista(&V[0].L, 'B', 10);
+    insertarEnLista(&V[0].L, 'C', 200);
 
     // B -> [C]
-    insertarEnLista(&V[1].L, 'C', 3);
-    insertarEnLista(&V[1].L, 'B', 10);
+    insertarEnLista(&V[1].L, 'B', 32);
+    insertarEnLista(&V[1].L, 'C', 17);
+    insertarEnLista(&V[1].L, 'D', 19);
 
     // C -> [A, F]
-    insertarEnLista(&V[2].L, 'F', 4);
-    insertarEnLista(&V[2].L, 'A', 5);
+    insertarEnLista(&V[2].L, 'A', 43);
+    insertarEnLista(&V[2].L, 'C', 50);
+    insertarEnLista(&V[1].L, 'D', 10);
+
 
     // D -> [B, F]
-    insertarEnLista(&V[3].L, 'F', 6);
+    insertarEnLista(&V[3].L, 'A', 62);
     insertarEnLista(&V[3].L, 'B', 7);
 
     // E -> [D]
-    insertarEnLista(&V[4].L, 'D', 1);
+    insertarEnLista(&V[4].L, 'F', 18);
+    insertarEnLista(&V[1].L, 'G', 10);
+
 
     // F -> [D, G]
-    insertarEnLista(&V[5].L, 'G', 9);
-    insertarEnLista(&V[5].L, 'D', 10);
+    insertarEnLista(&V[5].L, 'B', 91);
+    insertarEnLista(&V[5].L, 'C', 30);
+    insertarEnLista(&V[1].L, 'G', 14);
+
 
     // G -> [D, E]
-    insertarEnLista(&V[6].L, 'E', 11);
-    insertarEnLista(&V[6].L, 'D', 12);
+    insertarEnLista(&V[6].L, 'F', 13);
 }
 
 void cargaMatriz(TMat mat)

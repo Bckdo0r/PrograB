@@ -19,5 +19,5 @@ typedef reg TVec[N];
 typedef int TMat[N][N];
 
 void insertarEnLista(Lista *, char, int);
-void cargaLista(TVec);
+void cargaListaA(TVec);
 void cargaMatriz(TMat);
