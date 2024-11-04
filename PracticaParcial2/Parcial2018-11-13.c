@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../Practica7/TDA/arboles.h"
 #include "../Practica8/grafo.h"
 
 // EJ 3)
@@ -67,4 +68,70 @@ int main()
     printf("%c\n", Determina(V));
 
     return 0;
+}
+
+int CuentaArbol(arbol A, int K, int nivel)
+{
+    int gr = 0;
+    int cant = 0;
+
+    if (A == NULL)
+        return 0;
+
+    A = A->izq;
+
+    while (A != NULL)
+    {
+        nivel++;
+        gr++;
+        cant += CuentaArbol(A->izq, K, nivel + 1) + CuentaArbol(A->der, K, nivel);
+        A = A->der;
+    }
+
+    return cant + (nivel == K && gr == K);
+}
+
+int CuentaBosque(arbol A, int K)
+{
+    int cant = 0;
+
+    while (A != NULL)
+    {
+        cant += CuentaArbol(A, K, 0);
+        A = A->der;
+    }
+
+    return cant;
+}
+
+int EsVocal(char c)
+{
+    return 1;
+}
+
+// Dado un arbol N-ario de caracteres, determinar si en todos los niveles hay al menos una vocal.
+void Verifica(arbol A, posicion p, int niveles[], int nivel, int *verif)
+{
+    posicion c;
+    int hayVocal = 0;
+
+    if (!Nulo(p) && *verif)
+    {
+        if (EsVocal(Info(p)))
+            niveles[nivel] = 1;
+
+        if (!niveles[nivel])
+        {
+            c = HijoMasIzq(A, p);
+
+            while (!Nulo(c))
+            {
+                Verifica(A, c, niveles, nivel + 1, verif);
+                c = HermanoDer(A, c);
+            }
+        }
+
+        if (niveles[nivel] == 0)
+            *verif = 0;
+    }
 }

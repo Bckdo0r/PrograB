@@ -8,8 +8,11 @@
     "colas.h": "c",
     "listas.h": "c",
     "arboles.h": "c",
-    "grafo.h": "c"
+    "grafo.h": "c",
+    "__config": "cpp",
+    "atomic": "cpp",
+    "cstdint": "cpp"
   },
   "CodeGPT.apiKey": "CodeGPT Plus Beta",
-  "cSpell.words": ["elim", "Pnodo", "posicion"]
+  "cSpell.words": ["elim", "Pnodo", "posicion", "subgrafo"]
 }
