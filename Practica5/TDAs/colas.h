@@ -7,6 +7,15 @@ typedef struct {
     ST7 pat;
     unsigned int fecha,Tabon,Tocup;
 } TElementoC;
+
+typedef struct{
+    int cantP;
+    char VIP,rViaje;
+} reg;
+typedef struct {
+    ST7 pat;
+    reg dato;
+} TelementoC;
 typedef struct {
 	TElementoC datos[MAX];
     int pri, ult; 

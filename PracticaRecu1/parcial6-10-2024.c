@@ -17,10 +17,7 @@ typedef struct{
 } reg;
 
 typedef struct nodito{
-    ST7 Pat;
-    unsigned int fecha;
-    ST5 hora;
-    Thora Tabon,Tocup;
+    reg dato;
     struct nodito *sig;
 } nodoSL;
 
@@ -56,13 +53,15 @@ int main() {
     ST5 X,AG;
     int K;
 
+    L.pri = NULL;
+    L.ult = NULL;
     iniciaC(&C);
     cargaLista(&L);
     cargaCola(&C);
 
     actualizaLD(L,&C);
     creaArch(L,AG,K);
-    elminaLD(&L,X);
+    eliminaLD(&L,X);
 
     return 0;
 }
@@ -70,22 +69,22 @@ int main() {
 void agregaNodoSL(SLista *S,TElementoC X){
     SLista ant, act, new = (SLista) malloc(sizeof(nodoSL));
     
-    strcpy(new->Pat,X.pat);
-    strcpy(new->hora,X.horaM);
-    new->Tabon.hs = X.Tabon / 60;
-    new->Tabon.min = X.Tabon % 60;
-    new->Tocup.hs = X.Tocup / 60;
-    new->Tocup.min = X.Tocup % 60;
-    new->fecha = X.fecha;
+    strcpy(new->dato.Pat,X.pat);
+    strcpy(new->dato.hora,X.horaM);
+    new->dato.Tabon.hs = X.Tabon / 60;
+    new->dato.Tabon.min = X.Tabon % 60;
+    new->dato.Tocup.hs = X.Tocup / 60;
+    new->dato.Tocup.min = X.Tocup % 60;
+    new->dato.fecha = X.fecha;
 
-   if (*S == NULL || strcmp((*S)->Pat,new->Pat) > 0){
-        *S = new;
+   if (*S == NULL || strcmp((*S)->Pat,new->dato.Pat) > 0){
         new->sig = *S;
+        *S = new;
     }
     else {
         act = *S;
 
-        while (act != NULL && strcmp(act->Pat,new->Pat) < 0){
+        while (act != NULL && strcmp(act->Pat,new->dato.Pat) <= 0){
             ant = act;
             act = act->sig;
         }
@@ -97,12 +96,12 @@ void agregaNodoSL(SLista *S,TElementoC X){
 
 nodoLD* buscaAgente(ListaD L,ST5 cod){
     nodoLD *aux;
-    L.pri = aux;
+    aux = L.pri;
 
     while (aux != NULL && strcmp(aux->codA,cod) > 0)
         aux = aux->sig;
 
-    return strcmp(aux->codA,cod) == 0 ? aux : NULL;    
+    return aux != NULL && strcmp(aux->codA,cod) == 0 ? aux : NULL;    
 }
 
 void actualizaLD(ListaD L,TCola *C){ //! A)
@@ -117,7 +116,7 @@ void actualizaLD(ListaD L,TCola *C){ //! A)
         if (x.fecha >= 243 && x.fecha <= 273 && x.Tabon < x.Tocup){
             auxL = buscaAgente(L,x.codA);
             if (auxL != NULL)
-                agregaNodoSL(auxL->sub,x);
+                agregaNodoSL(&auxL->sub,x);
             else
                 printf("El agente %s no esta registrado",x.codA);    
         }
@@ -127,35 +126,18 @@ void actualizaLD(ListaD L,TCola *C){ //! A)
     }
 
     while (!vaciaC(auxC)){
-        saca(&auxC,&x);
+        sacaC(&auxC,&x);
         poneC(C,x);
     }
 }
 
 int verifMesYHora(unsigned int fecha,ST5 hora){
-    int verif = 1,i = 0, meses[12] = {31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
+    int i = 0, meses[12] = {31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
 
     while (i < 12 && fecha <= meses[i])
         i++;
 
-    verif = (i % 2 == 0);
-
-    if (verif)
-        verif = strcmp(hora,"00:00") > 0 && strcmp(hora,"12:00") < 0 || strcmp(hora,"18:00") > 0;
-
-    return verif;     
-}
-
-reg copiaMulta(SLista S){
-    reg R;
-
-    R.fecha = S->fecha;
-    strcpy(R.hora,S->hora);
-    strcpy(R.Pat,S->Pat);
-    R.Tabon = S->Tabon;
-    R.Tocup = S->Tocup;
-
-    return R;
+    return (i+1 % 2 == 0) && strcmp(hora,"00:00") >= 0 && strcmp(hora,"12:00") < 0 || strcmp(hora,"18:00") > 0;;     
 }
 
 void creaArch(ListaD L,ST5 AG,int k){ //! B)
@@ -163,7 +145,6 @@ void creaArch(ListaD L,ST5 AG,int k){ //! B)
     FILE *arch;
     nodoLD *aux;
     SLista auxS;
-    reg R;
     
     aux = buscaAgente(L,AG); //Verificar que exista primero el agente antes de abrir archivo
 
@@ -173,8 +154,8 @@ void creaArch(ListaD L,ST5 AG,int k){ //! B)
         
         while (auxS != NULL){
             cont++;
-            if (verifMesYHora(auxS->fecha,auxS->hora)){
-                R = copiaMulta(auxS);       
+            if (verifMesYHora(auxS->dato.fecha,auxS->dato.hora)){
+                R = auxS->dato;       
                 fwrite(&R,sizeof(reg),1,arch);
             }
             auxS = auxS->sig; 
@@ -190,7 +171,7 @@ void creaArch(ListaD L,ST5 AG,int k){ //! B)
 
 void elimContinuo(SLista *S){
     SLista elim;
-    while (strncmp((*S)->Pat,"AF",2) == 0 || *S != NULL){
+    while (*S != NULL && strncmp((*S)->Pat,"AF",2) == 0){
         elim = *S;
         *S = (*S)->sig;
         free(elim);
@@ -200,17 +181,17 @@ void elimContinuo(SLista *S){
 void eliminaSL(SLista *S){
     SLista ant,act;
 
-    if (strncmp((*S)->Pat,"AF",2) == 0)
-        elimContinuo(&S);
+    if (*S != NULL && strncmp((*S)->Pat,"AF",2) == 0)
+        elimContinuo(S);
     
     else{
         act = *S;
         
-        while (strncmp(act->Pat,"AF",2) < 0)
+        while (act != NULL && strncmp(act->Pat,"AF",2) < 0)
             ant = act;
             act = act->sig;
 
-        elimContinuo(act);
+        elimContinuo(&act);
     }
 }
 
@@ -220,11 +201,16 @@ void eliminaLD(ListaD *L,ST5 X){ //! C)
     aux = buscaAgente(*L,X);
 
     if (aux != NULL){
-        eliminaSL(aux->sub);
+        eliminaSL(&aux->sub);
 
         if (aux->sub == NULL){
             
-            if (aux == L->pri){
+            if (L->pri == L->ult){
+                L->pri = NULL;
+                L->ult = NULL;
+            }
+
+            else if (aux == L->pri){
                 L->pri = aux->sig;
                 aux->sig->ant = NULL;
             }
