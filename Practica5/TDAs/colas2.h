@@ -11,7 +11,6 @@ typedef struct{
 } reg;
 
 typedef struct {
-    ST7 pat;
     reg dato;
 } TElementoC;
 
