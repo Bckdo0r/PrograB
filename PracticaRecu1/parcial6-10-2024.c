@@ -77,14 +77,14 @@ void agregaNodoSL(SLista *S,TElementoC X){
     new->dato.Tocup.min = X.Tocup % 60;
     new->dato.fecha = X.fecha;
 
-   if (*S == NULL || strcmp((*S)->Pat,new->dato.Pat) > 0){
+   if (*S == NULL || strcmp((*S)->dato.Pat,new->dato.Pat) > 0){
         new->sig = *S;
         *S = new;
     }
     else {
         act = *S;
 
-        while (act != NULL && strcmp(act->Pat,new->dato.Pat) <= 0){
+        while (act != NULL && strcmp(act->dato.Pat,new->dato.Pat) <= 0){
             ant = act;
             act = act->sig;
         }
@@ -154,10 +154,9 @@ void creaArch(ListaD L,ST5 AG,int k){ //! B)
         
         while (auxS != NULL){
             cont++;
-            if (verifMesYHora(auxS->dato.fecha,auxS->dato.hora)){
-                R = auxS->dato;       
-                fwrite(&R,sizeof(reg),1,arch);
-            }
+            if (verifMesYHora(auxS->dato.fecha,auxS->dato.hora))     
+                fwrite(&auxS->dato,sizeof(reg),1,arch);
+
             auxS = auxS->sig; 
         }
         printf("Al agente %s, %s le corresponde el 15 de descuento ",AG, aux->Est == 'S' && cont > k ? "SI" : "NO");
@@ -171,7 +170,7 @@ void creaArch(ListaD L,ST5 AG,int k){ //! B)
 
 void elimContinuo(SLista *S){
     SLista elim;
-    while (*S != NULL && strncmp((*S)->Pat,"AF",2) == 0){
+    while (*S != NULL && strncmp((*S)->dato.Pat,"AF",2) == 0){
         elim = *S;
         *S = (*S)->sig;
         free(elim);
@@ -181,13 +180,13 @@ void elimContinuo(SLista *S){
 void eliminaSL(SLista *S){
     SLista ant,act;
 
-    if (*S != NULL && strncmp((*S)->Pat,"AF",2) == 0)
+    if (*S != NULL && strncmp((*S)->dato.Pat,"AF",2) == 0)
         elimContinuo(S);
     
     else{
         act = *S;
         
-        while (act != NULL && strncmp(act->Pat,"AF",2) < 0)
+        while (act != NULL && strncmp(act->dato.Pat,"AF",2) < 0)
             ant = act;
             act = act->sig;
 

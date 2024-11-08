@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../Practica5/TDAs/colas.h"
-
-typedef char ST3[4];
-
+#include "../Practica5/TDAs/colas2.h"
 typedef struct nodoc{
     ST7 pat;
     ST3 radioC;
@@ -34,6 +31,10 @@ ListaC buscaDisponible(ListaC,reg);
 
 
 int main() {
+    ListaC Lc = NULL;
+    ListaS Ls = NULL;
+    TVec resumen;
+
     
     
     return 0;
@@ -62,16 +63,16 @@ ListaC buscaDisponible(ListaC L,reg R){
     return verif ? aux : NULL;
 }
 
-void procesaPedidos(ListaS Ls,ListaC Lc){
+void procesaPedidos(ListaS Ls,ListaC Lc){ //! A)
     FILE *arch;
     reg R;
     ListaS auxLS;
     ListaC auxLC;
-    TelementoC x;
+    TElementoC x;
     arch = fopen("VIAJES.DAT","rb");
     
     if (arch != NULL){
-        while (fread(R,sizeof(reg),1,arch) == 1){
+        while (fread(&R,sizeof(reg),1,arch) == 1){
             auxLC = buscaDisponible(Lc,R);
             
             if (auxLC != NULL){
@@ -81,7 +82,7 @@ void procesaPedidos(ListaS Ls,ListaC Lc){
                 if (auxLS != NULL){
                     x.dato = R;
                     strcpy(x.pat,auxLS->pat); 
-                    poneC(auxLS->C,x);
+                    poneC(&auxLS->C,x); //? va ampersand
                 }
                 
                 else
@@ -97,9 +98,9 @@ void procesaPedidos(ListaS Ls,ListaC Lc){
         printf("Error lens.\n");
 }
 
-void depuraColas(ListaS L){
+void depuraColas(ListaS L){ //! B)
     TCola aux;
-    TelementoC x;
+    TElementoC x;
     int maxElim = 0,cont;
 
     iniciaC(&aux);
@@ -108,7 +109,7 @@ void depuraColas(ListaS L){
         
         while (!vaciaC(L->C)){
             sacaC(&L->C,&x);
-            if (x.dato.cantP != 0){}
+            if (x.dato.cantP != 0)
                 poneC(&aux,x);
             else
                 cont++;    
@@ -125,12 +126,82 @@ void depuraColas(ListaS L){
     }
 }
 
-void eliminaLc(ListaC *L){
-    ListaC act,ant;
+void daDeBaja(ListaC *Lc,ListaS *Ls,ST7 P,TVec resumen[]){ //! C)
+    ListaC actC,antC;
+    ListaS actS,antS;
 
-    if (*L == )
+    actC = (*Lc)->sig;
+    actS = *Ls;
+
+    while (actS != NULL && strcmp(actS->pat,P) != 0){
+        antS = actS;
+        actS = actS->sig;
+    }
+
+    do {
+        antC = actC;
+        actC = actC->sig;
+    } while (actC != *Lc && strcmp(actC->pat,P) != 0);
+
+    if (actS != NULL && strcmp(actS->pat,actC->pat) == 0){
+        creaVec(&actS->C,resumen); //aca se vacia la cola y se crea el vector
+        eliminaDeLs(Ls,actS,antS);
+        eliminaDeLc(Lc,actC,antC);
+    }
+
 }
 
-void eliminaLs(ListaS *L){
-    ListaS act,ant;
+void creaVec(TCola *C,TVec resumen[]){
+    reg R;
+    TElementoC x;
+    int i;
+    char radio;
+
+    while (!vaciaC(*C)){
+        sacaC(C,&x);
+
+        radio = x.dato.rViaje;
+
+        if (radio == 'U'){
+            resumen[0]->cantP += x.dato.cantP;
+            resumen[0]->cantV ++; 
+        }
+        
+        else if (radio == 'R'){
+            resumen[1]->cantP += x.dato.cantP;
+            resumen[1]->cantV ++;
+        }
+        
+        else{
+            resumen[2]->cantP += x.dato.cantP;
+            resumen[2]->cantV ++;
+        }
+
+    }
+}
+
+void eliminaDeLs(ListaS *L,ListaS act,ListaS ant){
+    
+    if (act == *L)
+        *L = act->sig;
+    
+    else
+        ant->sig = act->sig;
+    
+    free(act);
+
+}
+
+void eliminaDeLc(ListaC *L,ListaC act,ListaC ant){
+
+    if (act == *L){
+        ant->sig = act->sig;
+        *L = ant;
+    }
+
+    else
+        ant->sig = act->sig;
+
+    free(act);
+
 }
