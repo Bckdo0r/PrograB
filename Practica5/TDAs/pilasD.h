@@ -1,5 +1,6 @@
-typedef int TElementoP;
+#include "tipos.h"
 
+typedef reg TElementoP;
 typedef struct nodoP{
     TElementoP dato;
     struct nodoP *sig;

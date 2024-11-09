@@ -32,8 +32,8 @@ void cargaListaS(ListaS *);
 void cargaListaC(ListaC *);
 void procesaPedidos(ListaS *,ListaC);
 void depuraColas(ListaS);
-void daDeBaja(ListaS *,ListaC *,ST7,TVec []);
-void creaVec(TCola *,TVec []);
+void daDeBaja(ListaS *,ListaC *,ST7,TVec);
+void creaVec(TCola *,TVec);
 void eliminaDeLs(ListaS *,ListaS,ListaS);
 void eliminaDeLc(ListaC *,ListaC,ListaC);
 int verifica(ListaC,reg);
@@ -157,7 +157,7 @@ void depuraColas(ListaS L){ //! B)
     TCola aux;
     TElementoC x;
     int maxElim = 0,cont;
-    ST7 maxPat = '';
+    ST7 maxPat = ' ';
 
     iniciaC(&aux);
     while (L != NULL){
@@ -186,7 +186,7 @@ void depuraColas(ListaS L){ //! B)
     printf("El taxi con patente %s fue el que mas viajes incompletos tuvo\n",maxPat);
 }
 
-void daDeBaja(ListaC *Lc,ListaS *Ls,ST7 P,TVec resumen){ //! C)
+void daDeBaja(ListaS *Ls,ListaC *Lc,ST7 P,TVec resumen){ //! C)
     ListaC actC,antC;
     ListaS actS,antS;
 
@@ -245,7 +245,7 @@ void creaVec(TCola *C,TVec resumen){
         else
             i = 2;
 
-        resumen[i]->cantP += x.dato.cantP;
-        resumen[i]->cantV ++;
+        resumen[i].cantP += x.dato.cantP;
+        resumen[i].cantV ++;
     }
 }
