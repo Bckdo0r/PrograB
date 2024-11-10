@@ -3,7 +3,8 @@
 #include <string.h>
 #include "../Practica5/TDAs/colas1.h"
 #include "../Practica5/TDAs/tipos.h"
-
+#define Ni 20
+#define Nj 50
 typedef struct{
     unsigned int norma,cantCertif;
     ST8 nomNorma;
@@ -30,7 +31,7 @@ typedef struct nodo{
 
 typedef nodoL *pLista;
 
-typedef char TMat[20][50];
+typedef char TMat[Ni][Nj];
 
 int main() {
 
@@ -139,3 +140,83 @@ int cuentaCertif(pLista L,int k){
     return cont;
 }
 
+void generaMat(pLista L,TMat M){ //! C) i
+    int i,j;
+
+    for (i = 0; i < Ni ;i++)
+        for (j = 0; j < Nj ;j++)
+            M[i][j] = 'N';
+
+    while (L != NULL){
+        
+        while (L->sub != NULL){ //? es eficiente
+            M[L->dato.norma][L->sub->dato.numEmp] = L->sub->dato.recertif;
+            L->sub = L->sub->sig;
+        }
+
+        L = L->sig;
+    }
+}
+
+void recorreMat(TMat M,int i,int j,int X,TCola *C,int contNorm,int *contEmp){ //! C) ii
+    if (j < Ni)
+        
+        if (i < Nj)
+            M[i][j] == 'S' ? recorreMat(M,i+1,j,X,C,contNorm+1,contEmp) : recorreMat(M,i+1,j,X,C,contNorm,contEmp); 
+        
+        else
+            if (contNorm >= X){
+                recorreMat(M,Ni,j+1,X,C,0,contEmp+1); 
+                poneC(C,j);
+            }
+            else
+                recorreMat(M,Ni,j+1,X,C,0,contEmp);
+}
+
+void eliminaE(pLista L,int E,TCola *C){ //! D)
+    TCola aux;
+    iniciaC(&aux);
+    TElementoC x;
+
+    if (!vaciaC(*C)){
+        sacaC(C,&x);
+
+        while(!vaciaC(*C) && x != E){
+            poneC(&aux,x);
+            sacaC(C,&x);
+        }
+
+        if (x == E){
+            poneC(&aux,x);
+            eliminaDeSub(L,E)
+        }
+
+        while(!vaciaC(aux)){
+            sacaC(&aux,&x);
+            poneC(C,x);
+        }
+    }
+        
+}
+
+void eliminaDeSub(pLista L,int E){
+    pSubL act,ant;
+
+    while (L != NULL){
+        act = L->sub;
+        while (act->dato.numEmp != E){ //? se supone que todas las empresas estan en la sub
+            ant = act;
+            act = act->sig;
+        } 
+
+        if (act->dato.recertif == 'N'){
+            if (act == L->sub)
+                L->sub = L->sub->sig;
+            else
+                ant->sig = act->sig;
+            free(act);        
+        }
+
+        L = L->sig;
+    }
+}
