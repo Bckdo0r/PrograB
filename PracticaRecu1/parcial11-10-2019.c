@@ -33,8 +33,32 @@ typedef nodoL *pLista;
 
 typedef char TMat[Ni][Nj];
 
-int main() {
+void cargaListas(pLista *);
+void agregaALista(pLista *,pLista);
+void agregaASub(pSubL *,regSL);
+int cuentaCertif(pLista,int);
+void generaMat(pLista,TMat);
+void recorreMat(TMat,int,int,int,TCola *,int,int *);
+void eliminaE(pLista,int,TCola *);
+void eliminaDeSub(pLista,int);
 
+int main() {
+    pLista L = NULL;
+    TCola C;
+    int X,E,N,contEmp = 0;
+    TMat M;
+
+    iniciaC(&C);
+    do {
+        printf("Ingrese los valores de N, X, E respectivamente: "); //? esta ingreso de datos es suficiente
+        scanf("%d %d %d",&N,&X,&E);
+    } while(E < 50 && N < 50);
+
+    cargaListas(&L);
+    muestraNormas(L,N);
+    generaMat(L,M);
+    recorreMat(M,0,0,X,&C,0,&contEmp);
+    eliminaE(L,E,&C);
 
     return 0;
 }
@@ -188,7 +212,7 @@ void eliminaE(pLista L,int E,TCola *C){ //! D)
 
         if (x == E){
             poneC(&aux,x);
-            eliminaDeSub(L,E)
+            eliminaDeSub(L,E);
         }
 
         while(!vaciaC(aux)){
