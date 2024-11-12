@@ -5,10 +5,6 @@
 #include "../Practica5/TDAs/tipos.h"
 #define Ni 20
 #define Nj 50
-typedef struct{
-    unsigned int norma,cantCertif;
-    ST8 nomNorma;
-}regL;
 
 typedef struct{
     unsigned int numEmp;
@@ -24,7 +20,8 @@ typedef struct nodito{
 typedef nodoSL *pSubL;
 
 typedef struct nodo{
-    regL dato;
+    unsigned int norma,cantCertif;
+    ST8 nomNorma;
     pSubL sub;
     struct nodo *sig;
 }nodoL;
@@ -34,7 +31,6 @@ typedef nodoL *pLista;
 typedef char TMat[Ni][Nj];
 
 void cargaListas(pLista *);
-void agregaALista(pLista *,pLista);
 void agregaASub(pSubL *,regSL);
 int cuentaCertif(pLista,int);
 void generaMat(pLista,TMat);
@@ -64,67 +60,69 @@ int main() {
 }
 
 void cargaListas(pLista *L){ //! A)
-    regL RL;
     regSL RSL;
     FILE *arch;
-    pLista new;
+    pLista nuevo,vecP[Ni] = {NULL};
+    int i = 0,j = 0;
 
     arch = fopen("CARGACTUAL.TXT","r");
 
     if (arch != NULL){
-        while (scanf(arch,"%d %s %d",&RL.norma,RL.nomNorma,&RL.cantCertif) == 3){ //?es eficiente
-            new = (pLista) malloc(sizeof(nodoSL));
-            new->dato = RL;
-            new->sub = NULL;
-            agregaALista(L,new);
+        nuevo = (pLista) malloc(sizeof(nodoSL));
+        
+        while (scanf(arch,"%d %s %d",&nuevo->norma,nuevo->nomNorma,&nuevo->cantCertif) == 3){ //?es eficiente
+            nuevo->sub = NULL;
+            vecP[nuevo->norma] = nuevo;
+            nuevo->sig = NULL;
 
             while (scanf(arch,"%d %s %c",&RSL.numEmp,RSL.fechaCertif,&RSL.recertif) == 3)
-                agregaASub(&new->sub,RSL); //? esta bien pasada la sublista
+                agregaASub(&nuevo->sub,RSL); 
 
+            i++;
+            nuevo = (pLista) malloc(sizeof(nodoSL));
         }
+        
+        for (i = 0; i < Ni - 1; i++){
+            if (vecP[i] != NULL && vecP[i+1] != NULL)
+                vecP[i]->sig = vecP[i+1];
+            
+            else if (vecP[i] != NULL && vecP[i+1] == NULL){
+                j = i;
+                
+                while (j < Ni-1 && vecP[j+1] != NULL)
+                    j++;
+                
+                if (j < Ni -1)
+                    vecP[i]->sig = vecP[j+1];
+            }    
+        }
+
+        *L = vecP[0];
         fclose(arch);
     }
     else
         printf("Error en archivo.\n");
 }
 
-void agregaALista(pLista *L,pLista new){
-    pLista act;
-
-    if (*L == NULL){
-        new->sig = NULL;
-        *L = new;
-    }
-
-    else{
-        act = *L;
-        
-        while (act->sig != NULL)
-            act = act->sig;
-        
-        act->sig = new;
-    }
-}
-
 void agregaASub(pSubL *S,regSL R){
-    pSubL ant,act,new = (pSubL) malloc(sizeof(nodoSL));
-    new->dato = R;
+    pSubL ant,act,nuevo = (pSubL) malloc(sizeof(nodoSL));
+    nuevo->dato = R;
 
-    if (*S == NULL || new->dato.numEmp < (*S)->dato.numEmp){
-        new->sig = *S;
-        *S = new;
+    if (*S == NULL || nuevo->dato.numEmp < (*S)->dato.numEmp){
+        nuevo->sig = *S;
+        *S = nuevo;
     }
     
     else{
         act = *S;
         
-        while(act != NULL && act->dato.numEmp < new->dato.numEmp){
+        while(act != NULL && act->dato.numEmp < nuevo->dato.numEmp){
             ant = act;
             act = act->sig;
         }
 
-        ant->sig = new;
-        new->sig = act;
+        ant->sig = nuevo;
+        nuevo->sig = act;
     }
 }
 
@@ -174,7 +172,7 @@ void generaMat(pLista L,TMat M){ //! C) i
     while (L != NULL){
         
         while (L->sub != NULL){ //? es eficiente
-            M[L->dato.norma][L->sub->dato.numEmp] = L->sub->dato.recertif;
+            M[L->norma][L->sub->dato.numEmp] = L->sub->dato.recertif;
             L->sub = L->sub->sig;
         }
 

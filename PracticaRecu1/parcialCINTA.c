@@ -4,6 +4,7 @@
 #include "../Practica5/TDAs/colas3.h"
 #include "../Practica5/TDAs/pilasD.h"
 #include "../Practica5/TDAs/tipos.h"
+#define MAX 100
 typedef struct nodito{
     bolsa dato;
     struct nodo *sig;
@@ -70,22 +71,53 @@ int main() {
 void procesaEmbolsado(TCola *C,ListaD L,TPila *P){ //! A)
     TElementoC x;
     TElementoP y;
-    nodoLD *aux;
+    nodoLD *aux,*ultE = NULL,*ultN = NULL,*ultL = NULL;
+    SubL nuevo;
     iniciaP(P);
     bolsa B;
     char dest;
+
+    buscaUltimos(L,ultE,ultN,ultL);
 
     while(!vaciaC(*C)){
         B = armaBolsa(C,P);
 
         if (B.peso >= 50){
+            nuevo = (SubL) malloc(sizeof(nodoSL));
+            nuevo->dato = B;
+            nuevo->sig = NULL;
+
             dest = estableceDest(B);
+
+            if (dest == 'L'){
+                ultL->sig = nuevo;
+                nuevo = ultL;
+            }
+            else if (dest == 'N'){
+                ultN->sig = nuevo;
+                nuevo = ultN;
+            }
+            else{
+                ultE->sig = nuevo;
+                nuevo = ultE;
+            }
+
+            /*
             aux = L.pri;
-
-            while (aux->dest != dest) //? esta ordenada, pero el destino esta validado
+            while (aux->dest != dest)
                 aux = aux->sig;
+            
+            if (aux->sub == NULL)
+                aux->sub = nuevo;
+            
+            else{
+                while (aux->sub->sig != NULL) //? no se como hacerlo guardando un puntero al ultimo
+                    aux->sub = aux->sub->sig;
 
-            agregaASub(&aux->sub,B);
+                aux->sub->sig = nuevo;    
+            }
+            */ 
+                
             sacaC(C,&x);
         }
         
@@ -94,20 +126,26 @@ void procesaEmbolsado(TCola *C,ListaD L,TPila *P){ //! A)
     }
 }
 
-void agregaASub(SubL *S,bolsa B){
-    SubL new = (SubL) malloc(sizeof(nodoSL));
-    new->dato = B;
-    
-    if (*S == NULL){ //? si se incerta al final se refiere a donde apunta el puntero S de la sublista
-        *S = new;
-        new->sig = NULL;
-    }
-    
-    else {
-        (*S)->sig = new;
-        new->sig = *S;
+void buscaUltimos(ListaD L,nodoLD *ultE,nodoLD *ultN,nodoLD *ultL){
+    nodoLD *aux;
+
+    aux = L.pri;
+    while(aux->sub != NULL){
+        ultL = aux->sub;
+        aux->sub = aux->sub->sig;
     }
 
+    aux = aux->sig;
+    while(aux->sub != NULL){
+        ultE = aux->sub;
+        aux->sub = aux->sub->sig;
+    }
+
+    aux = aux->sig;
+    while(aux->sub != NULL){
+        ultE = aux->sub;
+        aux->sub = aux->sub->sig;
+    }
 }
 
 char estableceDest(bolsa B){
