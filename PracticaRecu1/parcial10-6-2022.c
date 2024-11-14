@@ -127,28 +127,26 @@ void generaListaD(pLista Ls,pListaD *Ld){ //! B)
 
 }
 
-void iniciaListaD(pListaD *L){ //? es correcto o hay otra forma mejor
+void iniciaListaD(pListaD *L){
     int i;
-    pNodoLd *vecP;
+    pNodoLd nuevo = (pNodoLd) malloc(sizeof(nodoLd));
+    nuevo->cuatri = 1;
+    
+    nuevo->ant = NULL;
+    nuevo->sig = NULL;
+    L->pri = nuevo;
+    L->ult = nuevo;
 
-    vecP = (pNodoLd*) malloc(10 * sizeof(nodoLd));
-    for (i = 0; i < 10 ;i++){
-        vecP[i] = (pNodoLd) malloc(sizeof(nodoLd));
-        iniciaP(&vecP[i]->P);
-        vecP[i]->cuatri = i+1;
-        vecP[i]->ant = NULL;
-        vecP[i]->sig = NULL;
+    for (i = 1; i < 10 ;i++){
+        nuevo = (pNodoLd) malloc(sizeof(nodoLd));
+        nuevo->cuatri = i + 1;
+        
+        L->ult->sig = nuevo;
+        nuevo->ant = L->ult;
+        nuevo->sig = NULL;
+        L->ult = nuevo;
     }
-
-    for (i = 0; i < 10 - 1 ;i++)
-        vecP[i]->sig = vecP[i+1];
-
-    for (i = 9; i > 0 ;i--)
-        vecP[i]->ant = vecP[i-1];
-
-    L->pri = vecP[0];
-    L->ult = vecP[9];
-    free(vecP);
+    
 }
 
 void agregaAListaD(pListaD Ld,pLista Ls){

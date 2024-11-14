@@ -29,7 +29,9 @@ void agregaALd(pListaD *,nodoLd *);
 nodoLd* buscaEstacion(pListaD,char);
 void simulaViaje(pListaD,int,int);
 void bajanPasajeros(TPila *,char,int *);
-void procesaPasajeros(pSub *,TPila *,int *,int *,int *,char,int,int);
+void procesaPasajerosIda(pSub *,TPila *,int *,int *,int *,char,int,int);
+void procesaPasajerosVuelta(pSub *,TPila *,int *,int *,int *,char,int,int);
+
 
 int main() {
     pListaD L;
@@ -54,7 +56,7 @@ void actulizaLd(pListaD *L){ //! A)
     char est,dest;
     int cant,i;
     ST30 nom;
-    pSub *vecP;
+    pSub *vecP,ult,nuevo;
     nodoLd *aux;
 
     arch = fopen("INICIAL.txt","r");
@@ -73,19 +75,25 @@ void actulizaLd(pListaD *L){ //! A)
                 agregaALd(L,aux);
             }
             //hay que agregar a la sublista los elementos que voy leyendo, pero en orden
-            vecP = (pSub*) malloc(cant * sizeof(pSub)); //? eficiente
-            for (i = 0; i < cant ; i++){
-                fscanf(arch,"%c",&dest);
-                vecP[i] = (pSub) malloc(sizeof(nodoSL)); 
-                vecP[i]->dest = dest;
-                vecP[i]->sig = NULL;
-            }
-
-            for (i = 0; i < cant-1 ; i++)
-                vecP[i]->sig = vecP[i+1];
             
-            aux->sub = vecP[0];
-            free(vecP);
+            nuevo = (pSub) malloc(sizeof(nodoSL));
+            fscanf(arch,"%c",&dest);
+            
+            nuevo->dest = dest;
+            nuevo->sig = NULL;
+            aux->sub = nuevo;
+            ult = nuevo;
+
+            for (i = 0; i < cant - 1 ; i++){
+                nuevo = (pSub) malloc(sizeof(nodoSL));
+                fscanf(arch,"%c",&dest);
+                
+                nuevo->dest = dest;
+                nuevo->sig = NULL;
+                ult->sig = nuevo;
+                ult = nuevo;
+            }
+            
         }
         fclose(arch);
     }
@@ -138,14 +146,14 @@ void simulaViaje(pListaD L,int CAPA,int D){ //! B)
     aux = L.pri;
     while (aux != NULL){ //? esta bien modularizado
         bajanPasajeros(&tren,aux->est,&contPas);
-        procesaPasajeros(&aux->sub,&tren,&contPas,&contPasTot,&SumaKm,aux->est,D,CAPA);
+        procesaPasajerosIda(&aux->sub,&tren,&contPas,&contPasTot,&SumaKm,aux->est,D,CAPA);
         aux = aux->sig;
     }
 
     aux = L.ult;
     while (aux != NULL){  
         bajanPasajeros(&tren,aux->est,&contPas);        
-        procesaPasajeros(&aux->sub,&tren,CAPA,&contPas,&contPasTot,&SumaKm,aux->est,D);
+        procesaPasajerosVuelta(&aux->sub,&tren,CAPA,&contPas,&contPasTot,&SumaKm,aux->est,D);
         aux = aux->ant;
     }
 
@@ -164,17 +172,61 @@ void bajanPasajeros(TPila *P,char est,int *contPas){
     }
 }
 
-void procesaPasajeros(pSub *S,TPila *P,int *contPas,int *contPasTot,int *SumaKm,char est,int D,int CAPA){
-    pSub elim;
-    while (*S != NULL && (*contPas) <= CAPA){
-        poneP(P,(*S)->dest);
-        (*SumaKm) += ((*S)->dest - est)*D;
-        (*contPas)++;
-        (*contPasTot)++;
-        *S = elim;
-        *S = (*S)->sig;
-        free(elim);
+void procesaPasajerosIda(pSub *S,TPila *P,int *contPas,int *contPasTot,int *SumaKm,char est,int D,int CAPA){
+    pSub elim,ant,act = *S;
+    while (act != NULL && (*contPas) <= CAPA){
+        if (act->dest > est){
+            poneP(P,act->dest);
+            (*SumaKm) += (act->dest - est)*D;
+            (*contPas)++;
+            (*contPasTot)++;
+            
+            if (*S == act)
+                *S = act->sig;
+            else
+                ant->sig = act->sig;
+
+            elim = act;
+            act = act->sig;
+            free(elim);
+        }
+        else{
+            ant = act;
+            act = act->sig;
+        }
     }
+}
+
+void procesaPasajerosVuelta(pSub *S,TPila *P,int *contPas,int *contPasTot,int *SumaKm,char est,int D,int CAPA){
+    pSub elim,ant,act = *S;
+    while (act != NULL && (*contPas) <= CAPA){
+        if (act->dest < est){
+            poneP(P,act->dest);
+            (*SumaKm) += (act->dest - est)*D;
+            (*contPas)++;
+            (*contPasTot)++;
+            
+            if (*S == act)
+                *S = act->sig;
+            else
+                ant->sig = act->sig;    
+            
+            act = elim;
+            act = act->sig;
+            free(elim);
+        }
+        else{
+            ant = act;
+            act = act->sig;
+        }
+    }
+}
+
+void eliminaDeSub(pSub *S,pSub act){
+    if (*S == act)
+        *S = act->sig;
+    else
+            
 }
 
 //! C)
