@@ -82,7 +82,7 @@ void cargaListas(pLista *L){ //! A)
             nuevo = (pLista) malloc(sizeof(nodoSL));
         }
         
-        for (i = 0; i < Ni - 1; i++){
+        for (i = 0; i < Ni - 1; i++){ //? dudoso
             if (vecP[i] != NULL && vecP[i+1] != NULL)
                 vecP[i]->sig = vecP[i+1];
             

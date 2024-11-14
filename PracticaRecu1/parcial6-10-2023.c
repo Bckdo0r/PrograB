@@ -72,8 +72,8 @@ void actulizaLd(pListaD *L){ //! A)
 
                 agregaALd(L,aux);
             }
-
-            vecP = (pSub*) malloc(cant * sizeof(pSub));
+            //hay que agregar a la sublista los elementos que voy leyendo, pero en orden
+            vecP = (pSub*) malloc(cant * sizeof(pSub)); //? eficiente
             for (i = 0; i < cant ; i++){
                 fscanf(arch,"%c",&dest);
                 vecP[i] = (pSub) malloc(sizeof(nodoSL)); 
@@ -129,14 +129,14 @@ nodoLd* buscaEstacion(pListaD L,char est){
     return aux != NULL && aux->est == est ? aux : NULL;    
 }
 
-void simulaViaje(pListaD L,int CAPA,int D){ //! B)
+void simulaViaje(pListaD L,int CAPA,int D){ //! B) 
     TPila tren;
     int contPas = 0,SumaKm = 0,contPasTot = 0;
     nodoLd *aux;
     iniciaP(&tren);
 
     aux = L.pri;
-    while (aux != NULL){
+    while (aux != NULL){ //? esta bien modularizado
         bajanPasajeros(&tren,aux->est,&contPas);
         procesaPasajeros(&aux->sub,&tren,&contPas,&contPasTot,&SumaKm,aux->est,D,CAPA);
         aux = aux->sig;
