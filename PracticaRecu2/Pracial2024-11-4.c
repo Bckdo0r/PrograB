@@ -32,6 +32,7 @@ int cuentaGr(Arbol a){
 
 int verifica(Arbol a){
     int verif = 0,consonante;
+    Arbol aux;
     int gr;
 
     if (a == NULL)
@@ -40,9 +41,10 @@ int verifica(Arbol a){
     else{
 
         consonante = esConsonante(a->dato[0]);
+        aux = a->izq;
 
         if (consonante){
-            gr = cuentaGr(a->izq);
+            gr = cuentaGr(aux);
 
             verif = gr > 0 && gr % 2 == 0;
         }
@@ -51,7 +53,7 @@ int verifica(Arbol a){
             return 1;
 
         else
-            return verifica (a->izq) || verifica (a->der);
+            return verifica (aux) || verifica (aux->der);
     }
 
 }
@@ -60,15 +62,9 @@ int recorreBosque(Arbol r){
     int verif = 1;
 
     while(r != NULL && verif){
-        verif = 0;
+        verif = verifica(r);
         
-        if (esConsonante(r->dato[0]) && cuentaGr(r->izq))
-            verif = 1;
-        else
-            verif = verifica(r->izq);
-        
-        if (verif)
-            r = r->der;        
+        r = r->der;        
     }
 
     return verif;

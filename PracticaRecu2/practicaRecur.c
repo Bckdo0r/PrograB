@@ -5,44 +5,40 @@
 /* Dado un arbol binario que proviene de la transformacion de un bosque, determinar cunatos arboles del bosque
 tienen exactamente un nodo de grado K (funciones NO VOID)*/
 
-int cuentaGr(arbol a){
+int gradoK(arbol a, int k){
     int gr = 0;
 
-    while (a != NULL){
+    while (a != NULL && gr < k){
         gr++;
         a = a->der;
     }
 
-    return gr;
+    return gr == k && a == NULL;
 }
 
-int verifica(arbol a, int K, int verif){
-    int gr;
-
-    if (a == NULL)
-        return 1;
+int verifica(arbol a, int K, int cuenta){
+    arbol aux;
+    if (a == NULL || cuenta > 1)
+        return cuenta;
     
     else {
-        gr = cuentaGr(a->izq);
-
-        if (gr == K){
-            if (verif)
-                return 0;
+        aux = a->izq;
         
-            verif = 1;    
-        }
+        cuenta += gradoK(aux, K);
 
-        return verifica(a->izq,K,verif) && verifica(a->der,K,verif);    
+        return verifica(aux,K,cuenta) + verifica(aux->der,K,cuenta);     
     }    
 } 
 
 int cuentaArboles(arbol r, int K){
-    int cont = 0, verif;
+    int cont = 0, cuenta;
 
     while (r != NULL){
-        verif = 0;
-        verif = cuentaGr(r->izq) == K ? 1 : 0;
-        cont += verifica(r->izq,K,verif);
+
+        cuenta = verifica(r,K,0);
+
+        if (cuenta == 1)
+            cont++;
 
         r = r->der;
     }
@@ -96,7 +92,7 @@ int main() {
     addNodo(&a->der->der->izq->izq->der, 13);                                          
     addNodo(&a->der->der->izq->izq->der->der, 21);
 
-    printf ("%d arboles del bosque tiene 1 nodo de grado K\n",cuentaArboles(a,K));
+    printf ("\n%d arboles del bosque tiene 1 nodo de grado K\n",cuentaArboles(a,K));
 
     return 0;
 }
