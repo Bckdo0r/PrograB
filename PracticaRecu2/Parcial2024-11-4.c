@@ -2,16 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "../Practica5/TDAs/pilas0.h"
+#include "../Practica7/TDA/arboles.h"
 #define MAX 20
 
 typedef char string[MAX];
 typedef int posicion;
-
-typedef struct nodo{
-    string dato;
-    struct nodo *izq,*der;
-} nodoA, *Arbol;
 
 int esConsonante(char c){
     c = toupper(c);
@@ -19,7 +14,7 @@ int esConsonante(char c){
     return c >= 'A' && c <= 'Z'  && c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U';
 }
 
-int cuentaGr(Arbol a){
+int cuentaGr(arbol2 a){
     int gr = 0;
 
     while (a != NULL){
@@ -30,9 +25,8 @@ int cuentaGr(Arbol a){
     return gr;
 }
 
-int verifica(Arbol a){
+int verifica(arbol2 a){
     int verif = 0,consonante;
-    Arbol aux;
     int gr;
 
     if (a == NULL)
@@ -41,10 +35,9 @@ int verifica(Arbol a){
     else{
 
         consonante = esConsonante(a->dato[0]);
-        aux = a->izq;
 
         if (consonante){
-            gr = cuentaGr(aux);
+            gr = cuentaGr(a->izq);
 
             verif = gr > 0 && gr % 2 == 0;
         }
@@ -53,17 +46,25 @@ int verifica(Arbol a){
             return 1;
 
         else
-            return verifica (aux) || verifica (aux->der);
+            return verifica (a->izq) || verifica (a->der);
     }
 
 }
 
-int recorreBosque(Arbol r){
-    int verif = 1;
+int recorreBosque(arbol2 r){
+    int verif = 1,gr;
 
     while(r != NULL && verif){
-        verif = verifica(r);
-        
+        verif = 0;
+        if (esConsonante(r->dato[0])){
+            gr = cuentaGr(r->izq);
+            
+            verif = gr > 0 && gr % 2 == 0;
+
+        }
+        if (!verif)
+            verif = verifica(r->izq);
+        printf("\n");
         r = r->der;        
     }
 
@@ -73,24 +74,9 @@ int recorreBosque(Arbol r){
 // Prueba del recorrido preorden
 int main() {
     // Crear el árbol de prueba
-    Arbol raiz = crearNodo(10);
-    raiz->izq = crearNodo(5);
-    raiz->der = crearNodo(15);
-    raiz->izq->izq = crearNodo(2);
-    raiz->izq->der = crearNodo(7);
-
+    arbol2 raiz;
+    cargaArbolCadenas(&raiz);
     printf("El bosque %s cumple.\n",recorreBosque(raiz) ? "SI" : "NO");
 
     return 0;
-}
-
-//Cantidad de nodos en niveles menores a K que verifican que su primer hijo y el resto de los hijos son multiplos del primero
-
-int cuentaNodos(Arbol a, posicion p, int K, int lvl, int cont){
-    if (!nulo(p,a)){
-        if (lvl < K){
-            a = hijoMasIzq(p,a);
-            
-        }
-    }
 }
