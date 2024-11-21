@@ -101,22 +101,6 @@ void procesaEmbolsado(TCola *C,ListaD L,TPila *P){ //! A)
                 ultE->sig = nuevo;
                 nuevo = ultE;
             }
-
-            /*
-            aux = L.pri;
-            while (aux->dest != dest)
-                aux = aux->sig;
-            
-            if (aux->sub == NULL)
-                aux->sub = nuevo;
-            
-            else{
-                while (aux->sub->sig != NULL) //? no se como hacerlo guardando un puntero al ultimo
-                    aux->sub = aux->sub->sig;
-
-                aux->sub->sig = nuevo;    
-            }
-            */ 
                 
             sacaC(C,&x);
         }

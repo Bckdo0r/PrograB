@@ -29,9 +29,7 @@ void agregaALd(pListaD *,nodoLd *);
 nodoLd* buscaEstacion(pListaD,char);
 void simulaViaje(pListaD,int,int);
 void bajanPasajeros(TPila *,char,int *);
-void procesaPasajerosIda(pSub *,TPila *,int *,int *,int *,char,int,int);
-void procesaPasajerosVuelta(pSub *,TPila *,int *,int *,int *,char,int,int);
-
+void procesaPasajeros(pSub *,TPila *,int *,int *,int *,char,int,int,int);
 
 int main() {
     pListaD L;
@@ -53,7 +51,7 @@ int main() {
 
 void actulizaLd(pListaD *L){ //! A)
     FILE *arch;
-    char est,dest;
+    char est;
     int cant,i;
     ST30 nom;
     pSub *vecP,ult,nuevo;
@@ -74,21 +72,19 @@ void actulizaLd(pListaD *L){ //! A)
 
                 agregaALd(L,aux);
             }
-            //hay que agregar a la sublista los elementos que voy leyendo, pero en orden
             
+            //*hay que agregar a la sublista los elementos que voy leyendo, pero en orden
             nuevo = (pSub) malloc(sizeof(nodoSL));
-            fscanf(arch,"%c",&dest);
-            
-            nuevo->dest = dest;
+            fscanf(arch,"%c",&nuevo->dest);
+
             nuevo->sig = NULL;
             aux->sub = nuevo;
             ult = nuevo;
 
             for (i = 0; i < cant - 1 ; i++){
                 nuevo = (pSub) malloc(sizeof(nodoSL));
-                fscanf(arch,"%c",&dest);
-                
-                nuevo->dest = dest;
+                fscanf(arch,"%c",&nuevo->dest);
+
                 nuevo->sig = NULL;
                 ult->sig = nuevo;
                 ult = nuevo;
@@ -144,16 +140,16 @@ void simulaViaje(pListaD L,int CAPA,int D){ //! B)
     iniciaP(&tren);
 
     aux = L.pri;
-    while (aux != NULL){ //? esta bien modularizado
+    while (aux != NULL){
         bajanPasajeros(&tren,aux->est,&contPas);
-        procesaPasajerosIda(&aux->sub,&tren,&contPas,&contPasTot,&SumaKm,aux->est,D,CAPA);
+        procesaPasajeros(&aux->sub,&tren,&contPas,&contPasTot,&SumaKm,aux->est,D,CAPA,1);
         aux = aux->sig;
     }
 
     aux = L.ult;
     while (aux != NULL){  
         bajanPasajeros(&tren,aux->est,&contPas);        
-        procesaPasajerosVuelta(&aux->sub,&tren,CAPA,&contPas,&contPasTot,&SumaKm,aux->est,D);
+        procesaPasajeros(&aux->sub,&tren,&contPas,&contPasTot,&SumaKm,aux->est,D,CAPA,0);
         aux = aux->ant;
     }
 
@@ -172,10 +168,10 @@ void bajanPasajeros(TPila *P,char est,int *contPas){
     }
 }
 
-void procesaPasajerosIda(pSub *S,TPila *P,int *contPas,int *contPasTot,int *SumaKm,char est,int D,int CAPA){
+void procesaPasajeros(pSub *S,TPila *P,int *contPas,int *contPasTot,int *SumaKm,char est,int D,int CAPA, int check){
     pSub elim,ant,act = *S;
     while (act != NULL && (*contPas) <= CAPA){
-        if (act->dest > est){
+        if (act->dest > est && check || act->dest < est && !check){
             poneP(P,act->dest);
             (*SumaKm) += (act->dest - est)*D;
             (*contPas)++;
@@ -195,38 +191,6 @@ void procesaPasajerosIda(pSub *S,TPila *P,int *contPas,int *contPasTot,int *Suma
             act = act->sig;
         }
     }
-}
-
-void procesaPasajerosVuelta(pSub *S,TPila *P,int *contPas,int *contPasTot,int *SumaKm,char est,int D,int CAPA){
-    pSub elim,ant,act = *S;
-    while (act != NULL && (*contPas) <= CAPA){
-        if (act->dest < est){
-            poneP(P,act->dest);
-            (*SumaKm) += (act->dest - est)*D;
-            (*contPas)++;
-            (*contPasTot)++;
-            
-            if (*S == act)
-                *S = act->sig;
-            else
-                ant->sig = act->sig;    
-            
-            act = elim;
-            act = act->sig;
-            free(elim);
-        }
-        else{
-            ant = act;
-            act = act->sig;
-        }
-    }
-}
-
-void eliminaDeSub(pSub *S,pSub act){
-    if (*S == act)
-        *S = act->sig;
-    else
-            
 }
 
 //! C)

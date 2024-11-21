@@ -65,7 +65,6 @@ int verificaArbol(arbol a,int K){
     if (a == NULL)
         return 0;
 
-    a = a->izq;
     while (a != NULL){
         gr++;
         cont += verificaArbol(a->izq,K) + verificaArbol(a->der,K);

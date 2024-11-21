@@ -1,18 +1,59 @@
-/* Dado un árbol binario de números naturales que proviene de la transformación de un bosque, 
-devolver un arreglo con la clave mayor de cada uno de los árboles que conforman el bosque. */
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "TDA/arboles.h"
+#include "../Practica7/TDA/arboles.h"
 
-void maxArbol(arbol, int *);
-void generaVec(arbol, int []);
+/* Dado un arbol binario que proviene de la transformacion de un bosque, determinar cunatos arboles del bosque
+tienen exactamente un nodo de grado K (funciones NO VOID)*/
+
+int cuentaGr(arbol a){
+    int gr = 0;
+
+    while (a != NULL){
+        gr++;
+        a = a->der;
+    }
+
+    return gr;
+}
+
+int verifica(arbol a, int K, int verif){
+    int gr;
+
+    if (a == NULL)
+        return 1;
+    
+    else {
+        gr = cuentaGr(a->izq);
+
+        if (gr == K){
+            if (verif)
+                return 0;
+        
+            verif = 1;    
+        }
+
+        return verifica(a->izq,K,verif) && verifica(a->der,K,verif);    
+    }    
+} 
+
+int cuentaArboles(arbol r, int K){
+    int cont = 0, verif;
+
+    while (r != NULL){
+        verif = 0;
+        verif = cuentaGr(r->izq) == K ? 1 : 0;
+        cont += verifica(r->izq,K,verif);
+
+        r = r->der;
+    }
+
+    return cont;
+}
 
 int main() {
-    arbol a;
-    
-    int vec[100];
+
+    arbol a = NULL;
+    int K = 4;
 
     addNodo(&a, 1);                                          
     addNodo(&a->izq, 4);                           
@@ -53,38 +94,11 @@ int main() {
     addNodo(&a->der->der->izq, 28);                                          
     addNodo(&a->der->der->izq->izq, 24);                                          
     addNodo(&a->der->der->izq->izq->der, 13);                                          
-    addNodo(&a->der->der->izq->izq->der->der, 21);                      
+    addNodo(&a->der->der->izq->izq->der->der, 21);
 
-    generaVec(a,vec);
-
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%d ", vec[i]);
-    }
-    
+    printf ("%d arboles del bosque tiene 1 nodo de grado K\n",cuentaArboles(a,K));
 
     return 0;
 }
 
-void generaVec(arbol a, int vec[]){
-    int max, i = 0;
-    while (a != NULL) {
-        max = 0;
-        maxArbol(a->izq, &max);
-        if (a->dato > max)
-            max = a->dato;
-        vec[i++] = max;
-        a = a->der;
-    }
-}
 
-void maxArbol(arbol a, int *max) {
-    if (a != NULL) {
-
-        if (a->dato > *max)
-            *max = a->dato;
-
-        maxArbol(a->izq, max);
-        maxArbol(a->der, max);
-    }
-}
