@@ -34,7 +34,7 @@ int cuentaArboles(arbol0 r, int K){
     while (r != NULL){
 
         cuenta = gradoK(r->izq,K);
-        cuenta += verifica(r->izq,K,0);
+        cuenta += verifica(r->izq,K,cuenta);
         
         if (cuenta == 1)
             cont++;
@@ -51,7 +51,7 @@ int main() {
     int K = 4;
 
     cargaArbolEnteros(&a);
-    printf ("\n%d arboles del bosque tiene 1 nodo de grado K\n",cuentaArboles(a,K));
+    printf ("\n%d arbol(es) del bosque tiene(n) SOLO UN nodo de grado %d\n",cuentaArboles(a,K),K);
 
     return 0;
 }

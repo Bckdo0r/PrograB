@@ -25,6 +25,7 @@ void cargaArbolEnteros(arbol0 *a){
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->der, 16);
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->der->der, 17);
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->der->der->der, 18);
+    addNodo0(&(*a)->izq->der->der->izq->der->der->izq->der->der->der->izq, 0);
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->izq, 6);
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->izq->der, 12);
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->izq->der->der, 9);
@@ -37,21 +38,22 @@ void cargaArbolEnteros(arbol0 *a){
     addNodo0(&(*a)->izq->izq->izq->der, 11);
     addNodo0(&(*a)->izq->izq->izq->der->der, 17);
 
-    addNodo0(&(*a)->der, 4);                                          
-    addNodo0(&(*a)->der->izq, 15);                                          
-    addNodo0(&(*a)->der->izq->der, 11);                                          
-    addNodo0(&(*a)->der->izq->der->izq, 10);                                          
-    addNodo0(&(*a)->der->izq->der->izq->der, 20);                                          
-    addNodo0(&(*a)->der->izq->der->izq->der->der, 20);                                          
-    addNodo0(&(*a)->der->izq->der->izq->der->der->der, 2);                                          
-    addNodo0(&(*a)->der->izq->izq, 1);                                          
-    addNodo0(&(*a)->der->izq->izq->der, 21);
-                                              
-    addNodo0(&(*a)->der->der, 19);                                          
-    addNodo0(&(*a)->der->der->izq, 28);                                          
-    addNodo0(&(*a)->der->der->izq->izq, 24);                                          
-    addNodo0(&(*a)->der->der->izq->izq->der, 13);                                          
-    addNodo0(&(*a)->der->der->izq->izq->der->der, 21);
+    //addNodo0(&(*a)->der, 4);                                          
+    //addNodo0(&(*a)->der->izq, 15);                                          
+    //addNodo0(&(*a)->der->izq->der, 11);                                          
+    //addNodo0(&(*a)->der->izq->der->izq, 10);                                          
+    //addNodo0(&(*a)->der->izq->der->izq->der, 20);                                          
+    //addNodo0(&(*a)->der->izq->der->izq->der->der, 20);                                          
+    //addNodo0(&(*a)->der->izq->der->izq->der->der->der, 2);                                          
+    //addNodo0(&(*a)->der->izq->izq, 1);                                          
+    //addNodo0(&(*a)->der->izq->izq->der, 21);
+    //                                          
+    //addNodo0(&(*a)->der->der, 19);                                          
+    //addNodo0(&(*a)->der->der->izq, 28);                                          
+    //addNodo0(&(*a)->der->der->izq->izq, 24);                                          
+    //addNodo0(&(*a)->der->der->izq->izq->der, 13);                                          
+    //addNodo0(&(*a)->der->der->izq->izq->der->der, 21);
+    //addNodo0(&(*a)->der->der->izq->izq->der->der, 21);
 }
 
 void addNodo1(arbol1 *a, char e)
@@ -76,6 +78,7 @@ void cargaArbolCaracteres(arbol1 *a){
     addNodo1(&(*a)->izq->der->der->izq->der->der->izq->der, 'K');
     addNodo1(&(*a)->izq->der->der->izq->der->der->izq->der->der, 'L');
     addNodo1(&(*a)->izq->der->der->izq->der->der->izq->der->der->der, 'M');
+    addNodo1(&(*a)->izq->der->der->izq->der->der->izq->der->der->der->izq, '0');
     addNodo1(&(*a)->izq->der->der->izq->der->der->izq->izq, 'N');
     addNodo1(&(*a)->izq->der->der->izq->der->der->izq->izq->der, 'O');
     addNodo1(&(*a)->izq->der->der->izq->der->der->izq->izq->der->der, 'P');
@@ -134,6 +137,7 @@ void cargaArbolCadenas(arbol2 *a){
     addNodo2(&(*a)->izq->der->der->izq->der->der->izq->izq, "eBranch");
     addNodo2(&(*a)->izq->der->der->izq->der->der->izq->izq->der, "iPath");
     addNodo2(&(*a)->izq->der->der->izq->der->der->izq->izq->der->der, "aWay");
+    addNodo2(&(*a)->izq->der->der->izq->der->der->izq->der->der->der->izq, "0cero");
     addNodo2(&(*a)->izq->izq, "Subtree");                           
     addNodo2(&(*a)->izq->izq->der, "Node");                           
     addNodo2(&(*a)->izq->izq->der->izq, "Level");                           
