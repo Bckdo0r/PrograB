@@ -29,11 +29,11 @@ void cargaArbolEnteros(arbol0 *a){
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->izq, 6);
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->izq->der, 12);
     addNodo0(&(*a)->izq->der->der->izq->der->der->izq->izq->der->der, 9);
-    addNodo0(&(*a)->izq->izq, 5);                           
-    addNodo0(&(*a)->izq->izq->der, 7);                           
+    addNodo0(&(*a)->izq->izq, 1);                           
+    addNodo0(&(*a)->izq->izq->der, 1);                           
     addNodo0(&(*a)->izq->izq->der->izq, 8);                           
     addNodo0(&(*a)->izq->izq->der->izq->der, 10);                           
-    addNodo0(&(*a)->izq->izq->der->der, 12);
+    addNodo0(&(*a)->izq->izq->der->der, 2);
     addNodo0(&(*a)->izq->izq->izq, 21);
     addNodo0(&(*a)->izq->izq->izq->der, 11);
     addNodo0(&(*a)->izq->izq->izq->der->der, 17);
