@@ -17,15 +17,32 @@ int gradoK(arbol0 a, int k){
 }
 
 int verifica(arbol0 a, int K, int cuenta) {
-
+    int x;
     if (a == NULL || cuenta > 1)
         return cuenta;
-
-    if (gradoK(a->izq, K)) 
-        cuenta++;
-
+ 
+    cuenta += gradoK(a->izq, K);
+    
     cuenta = verifica(a->izq, K, cuenta);
-    return verifica(a->der, K, cuenta); 
+    return verifica(a->der, K, cuenta);    
+}
+
+int verifica2(arbol0 a, int K, int cuenta) {
+    int x;
+    if (a == NULL || cuenta == 2)
+        return cuenta;
+
+    if (gradoK(a->izq, K)){
+        cuenta++;
+        if (cuenta == 2)
+            return cuenta;
+    } 
+        
+    x = verifica(a->izq, K, cuenta);
+    if (x == 2)
+        return cuenta;
+
+    return x + verifica(a->der, K, cuenta);     
 }
 
 int cuentaArboles(arbol0 r, int K){

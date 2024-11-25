@@ -9,7 +9,7 @@ tenian al menos un nodo de grado 2 o 3 que verifica ademas que su clave era igua
 int gradoYClaves(arbol0 a,int dato){
     int suma = 0,gr = 0;
 
-    while(a != NULL && suma <= dato){
+    while(a != NULL){
         gr++;
         suma += a->dato;
         a = a->der;
@@ -32,8 +32,7 @@ int recorreBosque(arbol0 a){
     int verif = 1;
 
     while (a != NULL && verif){
-        verif = gradoYClaves(a->izq,a->dato);
-        if (!verif)
+        if (!gradoYClaves(a->izq,a->dato))
             verif = verifica(a->izq);
 
         a = a->der;    
@@ -47,7 +46,7 @@ int verifica2(arbol0 a) {
     arbol0 aux;
 
     if (a == NULL)
-        return 1;
+        return 0;
 
     aux = a->izq;
 
