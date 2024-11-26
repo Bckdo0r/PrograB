@@ -3,10 +3,25 @@
 #include <string.h>
 #include <ctype.h>
 #include "../Practica7/TDA/arboles.h"
+#include "../Practica8/grafo.h"
 #define MAX 20
 
 typedef char string[MAX];
 typedef int posicion;
+
+typedef struct nodo{
+    int v,peso;
+    struct nodo *sig;
+} nodoL;
+
+typedef nodoL *pLista;
+
+typedef struct{
+    int Vertice;
+    pLista L;
+} reg;
+
+typedef reg VecAdy[MAX];
 
 int esConsonante(char c){
     c = toupper(c);
@@ -147,6 +162,34 @@ int nodosVerif2(arbol0 a,int K,int lvl){
     }
 
     return cant + (verif1 && verif2);
+}
+
+int verificaMat (VecAdy VAdy,TMat M,int i,int j,int GrE){
+    if (j > N)
+        return 1;
+
+    if (M[j][j])
+        return verificaMat(VAdy,M,0,j+1,0);
+    
+    if (i <= N)
+        return M[i][j] ? verificaMat(VAdy,M,i+1,j,GrE+1) : verificaMat(VAdy,M,i+1,j,GrE);
+
+    if (GrE % 2 == 0 && !verificaLista(VAdy[j].L,j))
+        return 0;
+    
+    return verificaMat(VAdy,M,0,j+1,0);
+}
+
+int verificaLista(Lista L,int V){
+    int grS = 0,verif = 0;
+
+    while (L != NULL){
+        verif = !verif && L->nodo == V;
+        grS++;
+        L = L->sig;
+    }
+
+    return grS % 2 != 0 && verif;
 }
 
 // Prueba del recorrido preorden

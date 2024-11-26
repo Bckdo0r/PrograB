@@ -41,37 +41,21 @@ int recorreBosque(arbol0 a){
     return verif;
 }
 
-int verifica2(arbol0 a) {
-    int suma = 0, gr = 0, verif = 1;
-    arbol0 aux;
+/* Dado un arbol N-Ario de enteros, determinar mediante una unica funcion cuantos nodos del arbol son hojas y
+cuantos nodos del arbol tienen un hermano a izquierda que sea negativo. */
 
-    if (a == NULL)
-        return 0;
+void cuentaNodos(arbol0 a,posicion p,int *contHojas,int *contIzqNeg){
+    posicion c;
+    if(!nulo(p)){
+        (*contHojas) += nulo(hijoMasIzq(p,a));
+        c = hijoMasIzq(p,a);
 
-    aux = a->izq;
-
-    while (aux != NULL && verif) {
-        gr++;
-        suma += aux->dato;
-        verif = verifica2(aux->izq);
-        aux = aux->der;
+        while (!nulo(c)){
+            (*contIzqNeg) += info(c,a) < 0 && !nulo(hrnoDer(c,a));
+            cuentaNodos(a,c,contHojas,contIzqNeg);
+            c = hrnoDer(c,a);
+        }
     }
-
-    if ((gr == 2 || gr == 3) && suma == a->dato)
-        return 1;
-
-    return verifica2(a->der);
-}
-
-int recorreBosque2(arbol0 a) {
-    int verif = 1;
-
-    while (a != NULL && verif) {
-        verif = verifica2(a);
-        a = a->der;
-    }
-
-    return verif;
 }
 
 int main() {
@@ -80,7 +64,6 @@ int main() {
     cargaArbolEnteros(&a);
 
     printf("El bosque %s verifica la condicion solicitada.\n",recorreBosque(a) ? "SI" : "NO");
-    printf("El bosque %s verifica la condicion solicitada.\n",recorreBosque2(a) ? "SI" : "NO");
 
     return 0;
 }

@@ -13,7 +13,7 @@ int main() {
 
 /* Dado un ABB de caracteres, obtener la clave del nodo de grado 2 que se encuentre ubicado en el mayor nivel. Si no hubiere
 nodo de grado 2 en el arbol, retornar el caracter vacio. */
-void claveGr2MaxLvl(arbol a,int nivel,int nivelMax, char *clave){
+void claveGr2MaxLvl(arbol0 a,int nivel,int nivelMax, char *clave){
     if (a != NULL) {
         if (a->izq != NULL && a->der != NULL && nivel > nivelMax){
             (*clave) = a->dato;
@@ -27,7 +27,7 @@ void claveGr2MaxLvl(arbol a,int nivel,int nivelMax, char *clave){
 /* Dado un arbol N-Arios de enteros, desarrollar una funcion entera que obtenga la cantidad de nodos de grado mayor a 1, 
 ubicadoes entro los niveles k1  y k2, que verifican que las claves del primer y del ultimo hijo son mayores al nivel del nodo. */
 
-int cantNodos(arbol a,posicion p, int k1,int k2,int nivelAct){
+int cantNodos(arbol0 a,posicion p, int k1,int k2,int nivelAct){
     posicion c,aux;
     int cont = 0;
 

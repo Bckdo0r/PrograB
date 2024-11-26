@@ -17,14 +17,14 @@ int gradoK(arbol0 a, int k){
 }
 
 int verifica(arbol0 a, int K, int cuenta) {
-    int x;
+    int der;
     if (a == NULL || cuenta > 1)
         return cuenta;
  
     cuenta += gradoK(a->izq, K);
     
-    cuenta = verifica(a->izq, K, cuenta);
-    return verifica(a->der, K, cuenta);    
+    der = verifica(a->izq, K, cuenta);
+    return verifica(a->der, K, der);    
 }
 
 int verifica2(arbol0 a, int K, int cuenta) {
@@ -49,9 +49,8 @@ int cuentaArboles(arbol0 r, int K){
     int cont = 0, cuenta;
 
     while (r != NULL){
-
-        cuenta = gradoK(r->izq,K);
-        cuenta += verifica(r->izq,K,cuenta);
+        
+        cuenta = verifica(r->izq,K,gradoK(r->izq,K)); //* la llamada a gradoK tiene en cuenta a la raiz; cumple con la condicion pedida.
         
         if (cuenta == 1)
             cont++;
