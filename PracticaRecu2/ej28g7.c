@@ -9,6 +9,7 @@ e) verificar si cumple que para todas las claves salvo las de las hojas, su valo
 a la cantidad de hijos. (función int y función void) 
 f) obtener el promedio de las claves del nivel K (dato)  */
 
+//! god
 //a) retornar la cantidad de nodos que posee.
 int cantNodos(arbol0 a,posicion p){
     int cont = 0;
@@ -45,9 +46,10 @@ float porcClavesP(arbol0 a,posicion p){
         }
     }
 
-    return cont > 0 ? (float)suma / cont : 0;
+    return cont > 0 ? (float)suma / cont : 0; //! Tenés que hacerlo si o si void porque estás devolviendo la suma de los porcentajes de cada nodo, no el porcentaje total.
 }
 
+//! Mepa que no va a funcionar porque tenés el grM como variable local. Creo que solo te va a tomar las dos últimas comparaciones. (CREO) 
 //c) retornar su grado 
 int gradoMax(arbol0 a,posicion p){
     int grM = 0,gr = 0;
@@ -84,7 +86,7 @@ int nodosGrImp(arbol0 a,posicion p,int lvl){
         cont += gr % 2 != 0 && lvl % 2 != 0;
     }
 
-    return cont;
+    return cont; //! Pondría lo de la línea 84 acá. o sea: return cont + (gr % 2 != 0 && lvl % 2 != 0);
 }
 
 //e) verificar si cumple que para todas las claves salvo las de las hojas, su valor numérico es igual 
@@ -97,18 +99,19 @@ int cumpleInt(arbol0 a,posicion p){
         dato = info(p,a);
         c = hijoMasIzq(p,a);
 
-        while(!nulo(c)){
+        while(!nulo(c)){ //! Acá tmb iría el verif, porque a la vuelta de la recursividad, si alguno de los hijos no cumple, ya no deberías seguir.
             contH++;
             verif = cumpleInt(a,c);
             c = hrnoDer(c,a); 
         }
 
-        verif = contH > 0 && dato == contH; //el nodo no es hoja y la cantidad de hijos == clave
+        verif = contH > 0 && dato == contH; //el nodo no es hoja y la cantidad de hijos == clave //! Acá no sé muy bien que pasa porque si es hoja, verif resulta en 0 y creo que te caga todo. Capaz pondría un if
     }
 
     return verif;
 }
 
+//! Lo mismo que arriba
 void cumpleVoid(arbol0 a,posicion p,int *verif){
     int dato,contH = 0;
     posicion c;
@@ -127,7 +130,7 @@ void cumpleVoid(arbol0 a,posicion p,int *verif){
     }
 }
 
-
+//! eee (-4 puntos)
 int main() {
 
 
