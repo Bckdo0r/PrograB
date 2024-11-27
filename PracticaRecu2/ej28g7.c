@@ -29,24 +29,22 @@ int cantNodos(arbol0 a,posicion p){
 
 //b) hallar el porcentaje de claves pares 
 float porcClavesP(arbol0 a,posicion p){
-    int cont = 0,suma = 0,dato;
+    int contPares = 0,contNodos = 0;
     posicion c;
 
     if (!nulo(p)){
-        dato = info(p,a);
-        if (dato % 2 == 0){
-            cont++ ;
-            suma += dato;
-        }
+        contNodos++;
+        if (info(p,a) % 2 == 0)
+            contPares++ ;
 
         c = hijoMasIzq(p,a);
         while(!nulo(c)){
-            cont += porcClavesP(a,c);
+            contNodos += porcClavesP(a,c);
             c = hrnoDer(c,a);
         }
     }
 
-    return cont > 0 ? (float)suma / cont : 0; //! Tenés que hacerlo si o si void porque estás devolviendo la suma de los porcentajes de cada nodo, no el porcentaje total.
+    return contNodos > 0 ? (float)contPares * 100 / contNodos : 0; //! Tenés que hacerlo si o si void porque estás devolviendo la suma de los porcentajes de cada nodo, no el porcentaje total.
 }
 
 //! Mepa que no va a funcionar porque tenés el grM como variable local. Creo que solo te va a tomar las dos últimas comparaciones. (CREO) 
