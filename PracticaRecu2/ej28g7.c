@@ -41,26 +41,26 @@ void porcClavesP(arbol0 a,posicion p,float *porcen,int *contPares,int *contNodos
 
     (*porcen) = (*contNodos) > 0 ? (float)(*contPares) * 100 / (*contNodos) : 0; 
 }
-
-//! Mepa que no va a funcionar porque tenés el grM como variable local. Creo que solo te va a tomar las dos últimas comparaciones. (CREO) 
+ 
 //c) retornar su grado 
 int gradoMax(arbol0 a,posicion p){
-    int grM = 0,gr = 0;
+    int grM,gr = 0,Max = 0;
     posicion c;
 
-    if (!nulo(c)){
+    if (!nulo(a)){
         c = hijoMasIzq(p,a);
         while(!nulo(c)){
             gr++;
             grM = gradoMax(c,p);
+            
+            if (grM > Max)
+                Max = grM;
+            
             c = hrnoDer(c,a);
         }
-
-        if (gr > grM)
-            grM = gr;
     }
 
-    return grM;
+    return gr > Max ? gr : Max;
 }
 
 //d) hallar la cantidad de nodos de grado impar que hay en niveles impares. 
@@ -86,7 +86,7 @@ int cumpleInt(arbol0 a,posicion p){
     int dato,contH = 0,verif = 1;
     posicion c;
 
-    if (!nulo(p) && verif){
+    if (!nulo(p)){
         dato = info(p,a);
         c = hijoMasIzq(p,a);
 

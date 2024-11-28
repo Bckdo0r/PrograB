@@ -4,22 +4,47 @@
 #include "../Practica7/TDA/arboles.h"
 #include <time.h>
 
-int gradoMax(arbol0 a){
-    int grM,gr = 0, Max = 0;
+int gradoYclave(arbol0 a,int dato){
+    int gr = 0;
+    while (a != NULL){
+        gr++;
+        a = a->der;
+    }
+
+    return dato == gr;
+}
+
+int cumpleInt1(arbol0 a){
+    if (a == NULL)
+        return 1;
+
+    if (a->izq != NULL && !gradoYclave(a->izq,a->dato))
+        return 0;
+
+    return cumpleInt1(a->izq) && cumpleInt1(a->der);
+}
+
+int cumpleInt(arbol0 a){
+    int dato,contH = 0,verif = 1;
     arbol0 c;
 
     if (a != NULL){
-        c = c->izq;
-        while(c != NULL){
-            gr++;
-            grM = gradoMax(c);
-            if (grM > Max)
-                Max = grM;
-            c = c->der;
+        dato = a->dato;
+        c = a->izq;
+        printf("%d\n",dato);
+
+        while(c != NULL && verif){
+            contH++;
+            printf("%d\n",verif);
+            verif = cumpleInt(c);
+            c = c->der; 
         }
+
+        if (contH > 0)
+            verif = dato == contH;
     }
 
-    return gr > Max ? gr : Max;
+    return verif;
 }
 
 int main() {
@@ -30,7 +55,7 @@ int main() {
     cargaArbolEnteros(&a);
 
     inicio = clock();
-    printf("Grado maximo: %d\n",gradoMax(a));
+    printf("El arbol %s cumple.\n",cumpleInt1(a) ? "SI" : "NO");
     fin = clock();
     
     tiempo_ejecucion = (double)(fin - inicio) / CLOCKS_PER_SEC;

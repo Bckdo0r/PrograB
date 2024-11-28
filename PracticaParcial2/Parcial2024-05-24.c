@@ -127,10 +127,10 @@ int VerticesCumplen(TMat R, int i, int j, int grE, int grS, int V)
         return VerticesCumplen(R, 0, V + 1, 0, 0, V + 1);
 
     if (i < N)
-        return VerticesCumplen(R, i + 1, j, grE, grS + R[i][j], V);
+        return VerticesCumplen(R, i + 1, j, grE + R[i][j], grS, V);
 
     if (j < N)
-        return VerticesCumplen(R, i, j + 1, grE += R[V][j], grS, V);
+        return VerticesCumplen(R, i, j + 1, grE, grS + R[V][j], V);
 
     return grE == grS + VerticesCumplen(R, 0, V + 1, 0, 0, V + 1);
 }
