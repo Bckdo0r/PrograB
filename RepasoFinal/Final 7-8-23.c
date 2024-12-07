@@ -175,7 +175,7 @@ int esta(arbol0 A, int x)
     if (A->dato == x)
         return 1;
 
-    if (A->dato > x)
+    if (x < A->dato)
         return esta(A->izq, x);
 
     return esta(A->der, x);
