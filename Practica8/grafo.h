@@ -13,9 +13,9 @@ typedef struct
 {
     char nodo;
     Lista L;
-} reg;
+} AdyReg;
 
-typedef reg TVec[N];
+typedef AdyReg TVec[N];
 typedef int TMat[N][N];
 
 void insertarEnLista(Lista *, char, int);

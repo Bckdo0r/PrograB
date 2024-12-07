@@ -3,19 +3,19 @@ typedef int posicion;
 typedef struct nodo0
 {
    int dato;
-   struct nodo0 *izq,*der;
+   struct nodo0 *izq, *der;
 } NODO0, *arbol0;
 
 typedef struct nodo1
 {
    char dato;
-   struct nodo1 *izq,*der;
+   struct nodo1 *izq, *der;
 } NODO1, *arbol1;
 
 typedef struct nodo2
 {
    char *dato;
-   struct nodo2 *izq,*der;
+   struct nodo2 *izq, *der;
 } NODO2, *arbol2;
 
 void addNodo0(arbol0 *, int);

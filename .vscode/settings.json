@@ -18,7 +18,8 @@
     "pilas0.h": "c",
     "colas1.h": "c",
     "n-ario.h": "c",
-    "pilas1.h": "c"
+    "pilas1.h": "c",
+    "pilase.h": "c"
   },
   "CodeGPT.apiKey": "CodeGPT Plus Beta",
   "cSpell.words": ["elim", "Pnodo", "posicion", "subgrafo"]
