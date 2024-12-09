@@ -3,11 +3,7 @@
 
 typedef char st15[16];
 
-typedef struct
-{
-    int idPlayList;
-    st15 idCancion;
-} TElementoC;
+typedef int TElementoC;
 
 typedef struct
 {

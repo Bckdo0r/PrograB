@@ -192,7 +192,7 @@ int cantVertices(TVec V, arbol0 A)
         reg = V[i];
         L = reg.L;
         esBucle = 0;
-        costoMin = INT64_MAX;
+        costoMin = INT16_MAX;
 
         while (L != NULL && !esBucle)
         {
