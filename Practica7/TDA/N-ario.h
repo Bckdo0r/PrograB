@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-typedef int TElementoA;
+typedef char *TElementoA;
 typedef struct nodo
 {
     TElementoA dato;
